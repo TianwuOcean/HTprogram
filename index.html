@@ -1078,20 +1078,11 @@
         }
 
         .progress-text {
-            min-width: 50px;
+            min-width: 40px;
             text-align: right;
             font-weight: bold;
             color: #e6edf3;
             text-shadow: 0 0 5px rgba(79, 142, 255, 0.5);
-        }
-
-        .progress-percentage {
-            min-width: 35px;
-            text-align: right;
-            color: #00d4ff;
-            font-size: 12px;
-            font-weight: bold;
-            text-shadow: 0 0 5px rgba(0, 212, 255, 0.5);
         }
 
         /* 总览仪表盘-船舶清单异常状态样式 */
@@ -1116,6 +1107,34 @@
             overflow: hidden;
             border: 1px solid rgba(0, 102, 204, 0.1);
             background: white;
+        }
+        
+        /* 船舶列表状态样式 */
+        .status-sailing {
+            background-color: rgba(78, 205, 196, 0.2);
+            color: #4ecdc4;
+            font-weight: bold;
+            padding: 4px 8px;
+            border-radius: 12px;
+            display: inline-block;
+        }
+        
+        .status-anchored {
+            background-color: rgba(255, 167, 38, 0.2);
+            color: #ffa726;
+            font-weight: bold;
+            padding: 4px 8px;
+            border-radius: 12px;
+            display: inline-block;
+        }
+        
+        .status-berthed {
+            background-color: rgba(102, 187, 106, 0.2);
+            color: #66bb6a;
+            font-weight: bold;
+            padding: 4px 8px;
+            border-radius: 12px;
+            display: inline-block;
         }
 
         .map-container #baidu-map {
@@ -1372,7 +1391,7 @@
         .cargo-layout {
             display: flex;
             gap: 20px;
-            height: calc(100% - 180px);
+            height: 700px;
             overflow: hidden;
         }
         
@@ -1382,7 +1401,6 @@
             backdrop-filter: blur(12px);
             border-radius: 16px;
             padding: 20px;
-            overflow: hidden;
             border: 1px solid rgba(79, 142, 255, 0.3);
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(79, 142, 255, 0.1);
             display: flex;
@@ -1395,12 +1413,11 @@
             backdrop-filter: blur(12px);
             border-radius: 16px;
             padding: 20px;
-            overflow: hidden;
             border: 1px solid rgba(79, 142, 255, 0.3);
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(79, 142, 255, 0.1);
             display: flex;
             flex-direction: column;
-            height: 100%;
+            height: 700px;
         }
         
         /* 总览仪表盘-货物详情头部样式 */
@@ -1424,6 +1441,25 @@
             overflow-y: auto;
             padding-right: 10px;
             max-height: calc(100% - 60px);
+        }
+        
+        /* 货物详情滚动条样式 */
+        #cargo-detail-content::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        #cargo-detail-content::-webkit-scrollbar-track {
+            background: rgba(79, 142, 255, 0.1);
+            border-radius: 4px;
+        }
+        
+        #cargo-detail-content::-webkit-scrollbar-thumb {
+            background: rgba(79, 142, 255, 0.5);
+            border-radius: 4px;
+        }
+        
+        #cargo-detail-content::-webkit-scrollbar-thumb:hover {
+            background: rgba(79, 142, 255, 0.8);
         }
         
         /* 空状态样式 */
@@ -3012,6 +3048,26 @@
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
+        
+        /* 表格容器滚动条样式 */
+        .table-container::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        
+        .table-container::-webkit-scrollbar-track {
+            background: rgba(79, 142, 255, 0.1);
+            border-radius: 4px;
+        }
+        
+        .table-container::-webkit-scrollbar-thumb {
+            background: rgba(79, 142, 255, 0.5);
+            border-radius: 4px;
+        }
+        
+        .table-container::-webkit-scrollbar-thumb:hover {
+            background: rgba(79, 142, 255, 0.8);
+        }
 
         .data-table {
             width: 100%;
@@ -3035,6 +3091,14 @@
             white-space: nowrap;
             text-shadow: 0 0 10px rgba(79, 142, 255, 0.5);
         }
+        
+        .data-table .vessel-header td {
+            color: white;
+            padding: 8px 6px;
+            text-align: left;
+            font-weight: bold;
+            white-space: nowrap;
+        }
 
         .data-table td {
             padding: 8px 6px;
@@ -3042,7 +3106,7 @@
             color: #e6edf3;
             white-space: nowrap;
         }
-
+        
         .data-table tr:hover {
             background: rgba(79, 142, 255, 0.1);
         }
@@ -3085,21 +3149,23 @@
             border-radius: 12px;
             font-weight: bold;
             font-size: 11px;
-            color: white;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            display: inline-block;
         }
         
         /* 根据状态值显示不同颜色 */
         .status-badge.已进站 {
-            background: linear-gradient(90deg, #059669, #047857);
+            background-color: rgba(5, 150, 105, 0.3);
+            color: #00ffae;
         }
         
         .status-badge.已装船 {
-            background: linear-gradient(90deg, #2563eb, #1d4ed8);
+            background-color: rgba(37, 99, 235, 0.3);
+            color: #00d4ff;
         }
         
         .status-badge.未进站 {
-            background: linear-gradient(90deg, #dc2626, #b91c1c);
+            background-color: rgba(220, 38, 38, 0.3);
+            color: #ff0000;
         }
         
         /* 添加货物模态窗口样式 */
@@ -3700,6 +3766,12 @@
                                     <input type="text" id="vessel-filter" class="filter-input" placeholder="请输入船舶名称">
                                 </div>
                                 
+                                <!-- 按关键字搜索 -->
+                                <div class="filter-item search-item">
+                                    <label for="keyword-search">搜索：</label>
+                                    <input type="text" id="keyword-search" class="filter-input" placeholder="提单号/客户名称/货物名称">
+                                </div>
+
                                 <!-- 按进站状态过滤 -->
                                 <div class="filter-item">
                                     <label for="status-filter">货物状态：</label>
@@ -3711,37 +3783,6 @@
                                     </select>
                                 </div>
                                 
-                                <!-- 按目的港过滤 -->
-                                <div class="filter-item">
-                                    <label for="port-filter">目的港：</label>
-                                    <select id="port-filter" class="filter-select">
-                                        <option value="all">全部</option>
-                                        <option value="shanghai">上海</option>
-                                        <option value="ningbo">宁波</option>
-                                        <option value="shenzhen">深圳</option>
-                                        <option value="guangzhou">广州</option>
-                                        <option value="qingdao">青岛</option>
-                                    </select>
-                                </div>
-                                
-                                <!-- 按货物类型过滤 -->
-                                <div class="filter-item">
-                                    <label for="type-filter">货物类型：</label>
-                                    <select id="type-filter" class="filter-select">
-                                        <option value="all">全部</option>
-                                        <option value="electronics">电子产品</option>
-                                        <option value="machinery">机械设备</option>
-                                        <option value="chemical">化工原料</option>
-                                        <option value="textile">纺织品</option>
-                                        <option value="food">食品饮料</option>
-                                    </select>
-                                </div>
-                                
-                                <!-- 按关键字搜索 -->
-                                <div class="filter-item search-item">
-                                    <label for="keyword-search">搜索：</label>
-                                    <input type="text" id="keyword-search" class="filter-input" placeholder="提单号/客户名称/货物名称">
-                                </div>
                             </div>
                             <div class="button-group">
                                 <button class="btn-primary" onclick="addCargo()">添加货物</button>
@@ -3761,16 +3802,10 @@
                                                 <th>提单号 B/L NO.</th>
                                                 <th>客户名称</th>
                                                 <th>货物名称</th>
-                                                <th>货物型号</th>
                                                 <th>货物数量</th>
                                                 <th>货物重量</th>
                                                 <th>货物体积</th>
                                                 <th>货物状态</th>
-                                                <th>进站时间</th>
-                                                <th>装船时间</th>
-                                                <th>船舶名称</th>
-                                                <th>目的港</th>
-                                                <th>ETD</th>
                                                 <th>操作</th>
                                             </tr>
                                         </thead>
@@ -3840,7 +3875,7 @@
                                                     <span id="detail-voyage" class="info-value"></span>
                                                 </div>
                                                 <div class="info-item">
-                                                    <span class="info-label">目的港：</span>
+                                                    <span class="info-label">卸货港：</span>
                                                     <span id="detail-destination" class="info-value"></span>
                                                 </div>
                                                 <div class="info-item">
@@ -3887,8 +3922,8 @@
                                                 <input type="text" id="vessel-name" class="form-input" required>
                                             </div>
                                             <div class="form-group">
-                                                <label for="voyage">航次(VOYAGE)：</label>
-                                                <input type="text" id="voyage" class="form-input" required>
+                                                <label for="imo">IMO编号：</label>
+                                                <input type="text" id="imo" class="form-input" required>
                                             </div>
                                         </div>
                                         <div class="form-row">
@@ -3897,8 +3932,8 @@
                                                 <input type="text" id="flag" class="form-input" required>
                                             </div>
                                             <div class="form-group">
-                                                <label for="imo">IMO编号：</label>
-                                                <input type="text" id="imo" class="form-input" required>
+                                                <label for="voyage">航次(VOYAGE)：</label>
+                                                <input type="text" id="voyage" class="form-input" required>
                                             </div>
                                         </div>
                                         <div class="form-row">
@@ -4036,17 +4071,21 @@
                             
                             <!-- 船舶信息-船舶列表 -->
                             <div style="width: 60%; height: 100%; background: rgba(16, 24, 39, 0.8); border-radius: 12px; padding: 20px; overflow-y: auto;">
-                                <h3 style="margin-bottom: 20px; color: #e6edf3; font-size: 18px;">船舶列表</h3>
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                                    <h3 style="color: #e6edf3; font-size: 18px; margin: 0;">船舶列表</h3>
+                                    <div class="ship-search">
+                                        <input type="text" placeholder="搜索船舶...">
+                                    </div>
+                                </div>
                                 <div class="table-container">
                                     <table id="vessel-table" class="data-table">
                                         <thead>
                                             <tr>
-                                                <th>分组名称</th>
                                                 <th>船名</th>
                                                 <th>船型</th>
                                                 <th>当前状态</th>
-                                                <th>下一目的港</th>
-                                                <th>ETA</th>
+                                                <th>ETA(太仓) <span class="sort-btn" id="sort-eta">↑</span></th>
+                                                <th>货物准备情况</th>
                                                 <th>操作</th>
                                             </tr>
                                         </thead>
@@ -4060,14 +4099,6 @@
                                 <div style="margin-top: 20px;">
                                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
                                         <h3 id="schedule-ship-name" style="color: #e6edf3; font-size: 18px;">船期数据</h3>
-                                        <div style="display: flex; gap: 10px; align-items: center;">
-                                            <span style="color: #e6edf3; font-size: 14px;">查询期间：</span>
-                                            <select id="schedule-period" style="padding: 8px 12px; border: 1px solid rgba(79, 142, 255, 0.3); border-radius: 6px; background: rgba(16, 24, 39, 0.9); color: #e6edf3; font-size: 14px; outline: none; transition: all 0.3s ease;">
-                                                <option value="4">四周内</option>
-                                                <option value="6">六周内</option>
-                                                <option value="8">八周内</option>
-                                            </select>
-                                        </div>
                                     </div>
                                     
                                     <div class="table-container">
@@ -4682,52 +4713,52 @@
                 // 模拟船舶数据
                 const vesselData = [
                     {
-                        groupName: '中远集团',
                         name: '中远腾飞',
                         type: '集装箱船',
                         status: '航行',
                         nextPort: '新加坡港',
-                        eta: '2025-12-29 18:30'
+                        eta: '2025-12-29 18:30',
+                        cargoReadyRatio: '25/30'
                     },
                     {
-                        groupName: '马士基',
-                        name: '马士基勇敢',
+                        name: '大玉霞',
                         type: '散货船',
                         status: '锚泊',
                         nextPort: '上海港',
-                        eta: '2025-12-30 08:00'
+                        eta: '2025-12-30 08:00',
+                        cargoReadyRatio: '12/18'
                     },
                     {
-                        groupName: '地中海航运',
-                        name: '地中海荣耀',
+                        name: '大华',
                         type: '集装箱船',
                         status: '靠泊',
                         nextPort: '宁波港',
-                        eta: '2025-12-31 12:00'
+                        eta: '2025-12-31 12:00',
+                        cargoReadyRatio: '15/20'
                     },
                     {
-                        groupName: '中远集团',
                         name: '中远青岛',
-                        type: '油轮',
+                        type: '散货船',
                         status: '航行',
                         nextPort: '大连港',
-                        eta: '2026-01-01 06:00'
+                        eta: '2026-01-01 06:00',
+                        cargoReadyRatio: '18/22'
                     },
                     {
-                        groupName: '马士基',
-                        name: '马士基诚信',
+                        name: '大吉',
                         type: '集装箱船',
                         status: '锚泊',
                         nextPort: '深圳港',
-                        eta: '2026-01-02 14:30'
+                        eta: '2026-01-02 14:30',
+                        cargoReadyRatio: '8/10'
                     },
                     {
-                        groupName: '地中海航运',
-                        name: '地中海和谐',
+                        name: '天福',
                         type: '散货船',
                         status: '靠泊',
                         nextPort: '天津港',
-                        eta: '2026-01-03 10:00'
+                        eta: '2026-01-03 10:00',
+                        cargoReadyRatio: '2/25'
                     }
                 ];
 
@@ -4736,14 +4767,30 @@
                 tbody.innerHTML = '';
 
                 vesselData.forEach(vessel => {
+                    // 解析货物Ready比例
+                    const ratioParts = vessel.cargoReadyRatio.split('/');
+                    const ready = parseInt(ratioParts[0], 10);
+                    const total = parseInt(ratioParts[1], 10);
+                    const percentage = Math.round((ready / total) * 100);
+                    
+                    // 判断是否为异常状态（低于70%）
+                    const isException = percentage < 70;
+                    const exceptionClass = isException ? ' exception' : '';
+                    
                     const row = document.createElement('tr');
                     row.innerHTML = `
-                        <td>${vessel.groupName}</td>
                         <td>${vessel.name}</td>
                         <td>${vessel.type}</td>
-                        <td>${vessel.status}</td>
-                        <td>${vessel.nextPort}</td>
+                        <td><span class="status-${vessel.status === '航行' ? 'sailing' : vessel.status === '锚泊' ? 'anchored' : 'berthed'}">${vessel.status}</span></td>
                         <td>${vessel.eta}</td>
+                        <td>
+                            <div class="cargo-progress">
+                                <div class="progress-bar-container" data-percentage="${percentage}%">
+                                    <div class="progress-bar${exceptionClass}" style="width: ${percentage}%"></div>
+                                </div>
+                                <span class="progress-text${exceptionClass}">${vessel.cargoReadyRatio}</span>
+                            </div>
+                        </td>
                         <td>
                             <button class="action-btn" onclick="queryCargo('${vessel.name}')">查询货物</button>
                             <button class="action-btn" onclick="setReminder('${vessel.name}')">提醒设置</button>
@@ -4762,9 +4809,8 @@
                         row.style.background = 'rgba(79, 142, 255, 0.2)';
                         
                         // 显示船期数据
-                        const period = document.getElementById('schedule-period').value;
-                        console.log('Calling displayScheduleData with:', vessel.name, period);
-                        displayScheduleData(vessel.name, period);
+                        console.log('Calling displayScheduleData with:', vessel.name);
+                        displayScheduleData(vessel.name, '4');
                     });
                     
                     tbody.appendChild(row);
@@ -4921,9 +4967,6 @@
                 // 更新统计卡片
                 document.getElementById('g2ocean-avg-berth-time').textContent = g2oceanAvgBerthTime;
                 
-                // 初始化查询期间下拉框事件
-                initSchedulePeriodEvent();
-                
                 // 默认选中第一艘船
                 if (vesselData.length > 0) {
                     const firstRow = document.querySelector('#vessel-table-body tr');
@@ -4933,8 +4976,7 @@
                         
                         // 显示第一艘船的船期数据
                         const firstVessel = vesselData[0];
-                        const period = document.getElementById('schedule-period').value;
-                        displayScheduleData(firstVessel.name, period);
+                        displayScheduleData(firstVessel.name, '4');
                     }
                 }
             }
@@ -5120,7 +5162,7 @@
                         }
                     ]
                 },
-                '马士基勇敢': {
+                '大玉霞': {
                     route: 'WSA5',
                     schedules: [
                         {
@@ -5275,7 +5317,7 @@
                             actualDeparture: '-'                        }
                     ]
                 },
-                '地中海荣耀': {
+                '大华': {
                     route: 'WSA7',
                     schedules: [
                         {
@@ -5341,7 +5383,7 @@
                         }
                     ]
                 },
-                '马士基诚信': {
+                '大吉': {
                     route: 'WSA9',
                     schedules: [
                         {
@@ -5370,7 +5412,7 @@
                         }
                     ]
                 },
-                '地中海和谐': {
+                '天福': {
                     route: 'WSA2',
                     schedules: [
                         {
@@ -5409,21 +5451,6 @@
                 }
             };
 
-            // 初始化查询期间下拉框事件
-            function initSchedulePeriodEvent() {
-                const periodSelect = document.getElementById('schedule-period');
-                periodSelect.addEventListener('change', () => {
-                    // 获取当前选中的船舶行
-                    const selectedRow = document.querySelector('#vessel-table-body tr[style*="rgba(79, 142, 255, 0.2)"]');
-                    if (selectedRow) {
-                        // 获取船舶名称
-                        const shipName = selectedRow.cells[1].textContent;
-                        // 更新船期数据
-                        displayScheduleData(shipName, periodSelect.value);
-                    }
-                });
-            }
-
             // 显示船期数据函数
             function displayScheduleData(shipName, period) {
                 console.log('displayScheduleData called with:', shipName, period);
@@ -5438,7 +5465,7 @@
                 }
 
                 // 更新标题
-                document.getElementById('schedule-ship-name').textContent = `${shipName} - 航线${shipSchedule.route} - 船期数据`;
+                document.getElementById('schedule-ship-name').textContent = `${shipName} - 船期数据`;
 
                 // 获取当前日期
                 const currentDate = new Date();
@@ -5551,7 +5578,7 @@
                 // 模拟货物数据
                 const cargoData = generateMockCargoData();
                 // 渲染货物列表
-                renderCargoList(cargoData);
+                renderCargoListByVessel(cargoData);
                 // 绘制图表
                 drawInventoryChart();
                 drawInOutChart();
@@ -5872,6 +5899,9 @@
                     // 随机生成是否有3D扫描，大约50%的货物有3D扫描
                     const has3DScan = Math.random() > 0.5;
                     
+                    // 生成随机航次号
+                    const voyage = `V${Math.floor(Math.random() * 1000).toString().padStart(3, '0')}${String.fromCharCode(65 + Math.floor(Math.random() * 26))}`;
+                    
                     cargoes.push({
                         blNo,
                         customer,
@@ -5887,7 +5917,8 @@
                         destinationPort,
                         etd,
                         timelineEvents,
-                        has3DScan
+                        has3DScan,
+                        voyage
                     });
                 }
 
@@ -5908,16 +5939,11 @@
                         <td>${cargo.blNo}</td>
                         <td>${cargo.customer}</td>
                         <td>${cargo.cargoName}</td>
-                        <td>${cargo.cargoModel}</td>
                         <td>${cargo.quantity}</td>
                         <td>${cargo.weight}</td>
                         <td>${cargo.volume}</td>
                         <td><span class="status-badge ${cargo.status}">${cargo.status}</span></td>
-                        <td>${cargo.inTime}</td>
-                        <td>${cargo.outTime || '-'}</td>
                         <td>${cargo.vesselName}</td>
-                        <td>${cargo.destinationPort}</td>
-                        <td>${cargo.etd}</td>
                         <td>
                             <button class="action-btn" onclick="editCargo('${cargo.blNo}')">编辑</button>
                             <button class="action-btn delete" onclick="deleteCargo('${cargo.blNo}')">删除</button>
@@ -5933,8 +5959,89 @@
                         // 显示货物详情
                         showCargoDetail(cargo);
                     });
+
+                    // 渲染完成后，默认选中第一行货物
+                    if (vesselCargoes.indexOf(cargo) === 0 && Object.keys(cargoesByVessel).indexOf(vesselName) === 0) {
+                        setTimeout(() => {
+                            row.click();
+                        }, 100);
+                    }
                     
-                    // 添加点击事件
+                    tbody.appendChild(row);
+                });
+            }
+            
+            // 按船舶名称分组渲染货物列表
+            function renderCargoListByVessel(cargoes) {
+                const tbody = document.getElementById('cargo-table-body');
+                tbody.innerHTML = '';
+
+                // 按船舶名称分组
+                const cargoesByVessel = {};
+                cargoes.forEach(cargo => {
+                    const vesselName = cargo.vesselName || '未分配船舶';
+                    if (!cargoesByVessel[vesselName]) {
+                        cargoesByVessel[vesselName] = [];
+                    }
+                    cargoesByVessel[vesselName].push(cargo);
+                });
+
+                // 遍历每个船舶分组
+                Object.entries(cargoesByVessel).forEach(([vesselName, vesselCargoes]) => {
+                    // 创建船舶分组标题行
+                    const vesselHeaderRow = document.createElement('tr');
+                    vesselHeaderRow.className = 'vessel-header';
+                    vesselHeaderRow.style.backgroundColor = 'rgb(28 65 124 / 80%)';
+                    // 获取第一个货物的航次号作为参考
+                    const voyage = vesselCargoes[0].voyage || '';
+                    
+                    // 计算货物准备情况（模拟数据）
+                    const totalCargoes = vesselCargoes.length;
+                    const readyCargoes = Math.floor(Math.random() * totalCargoes) + 1;
+                    const percentage = Math.round((readyCargoes / totalCargoes) * 100);
+                    const isException = percentage < 70;
+                    const exceptionClass = isException ? ' exception' : '';
+                    
+                    vesselHeaderRow.innerHTML = `
+                        <td colspan="8">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <div>${vesselName} (航次号：${voyage})</div>
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <span>共 ${vesselCargoes.length} 个提单</span>
+                                    <div class="cargo-progress" style="display: inline-flex; align-items: center; gap: 5px;">
+                                        <div class="progress-bar-container" style="width: 150px;" data-percentage="${percentage}%">
+                                            <div class="progress-bar${exceptionClass}" style="width: ${percentage}%"></div>
+                                        </div>
+                                        <span class="progress-text${exceptionClass}">${readyCargoes}/${totalCargoes}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    `;
+                    tbody.appendChild(vesselHeaderRow);
+
+                    // 渲染该船舶的货物
+                    vesselCargoes.forEach(cargo => {
+                        const row = document.createElement('tr');
+                        // 生成3D扫描按钮
+                        const scanButton = cargo.has3DScan ? `<button class="action-btn scan" onclick="show3DScanModal('${cargo.blNo}')">3D扫描</button>` : '';
+                        
+                        row.innerHTML = `
+                            <td>${cargo.blNo}</td>
+                            <td>${cargo.customer}</td>
+                            <td>${cargo.cargoName}</td>
+                            <td>${cargo.quantity}</td>
+                            <td>${cargo.weight}</td>
+                            <td>${cargo.volume}</td>
+                            <td><span class="status-badge ${cargo.status}">${cargo.status}</span></td>
+
+                            <td>
+                                <button class="action-btn" onclick="editCargo('${cargo.blNo}')">编辑</button>
+                                <button class="action-btn delete" onclick="deleteCargo('${cargo.blNo}')">删除</button>
+                                ${scanButton}
+                            </td>
+                        `;
+                        // 添加点击事件
                     row.addEventListener('click', function() {
                         // 移除其他行的选中状态
                         document.querySelectorAll('#cargo-table tbody tr').forEach(r => r.classList.remove('selected'));
@@ -5943,8 +6050,16 @@
                         // 显示货物详情
                         showCargoDetail(cargo);
                     });
+
+                    // 渲染完成后，默认选中第一行货物
+                    if (cargoes.indexOf(cargo) === 0) {
+                        setTimeout(() => {
+                            row.click();
+                        }, 100);
+                    }
                     
                     tbody.appendChild(row);
+                    });
                 });
             }
             
@@ -6394,7 +6509,7 @@
                     // 这里可以添加实际的删除逻辑
                     // 重新渲染列表
                     const cargoData = generateMockCargoData();
-                    renderCargoList(cargoData);
+                    renderCargoListByVessel(cargoData);
                 }
             }
             
@@ -8975,7 +9090,7 @@
                 // 模拟货物数据
                 const cargoData = generateMockCargoData();
                 // 渲染货物列表
-                renderCargoList(cargoData);
+                renderCargoListByVessel(cargoData);
                 // 绘制图表
                 drawInventoryChart();
                 drawInOutChart();
@@ -9046,6 +9161,9 @@
                     // 随机生成是否有3D扫描，大约50%的货物有3D扫描
                     const has3DScan = Math.random() > 0.5;
                     
+                    // 生成随机航次号
+                    const voyage = `V${Math.floor(Math.random() * 1000).toString().padStart(3, '0')}${String.fromCharCode(65 + Math.floor(Math.random() * 26))}`;
+                    
                     cargoes.push({
                         blNo,
                         customer,
@@ -9061,7 +9179,8 @@
                         destinationPort,
                         etd,
                         timelineEvents,
-                        has3DScan
+                        has3DScan,
+                        voyage
                     });
                 }
 
@@ -9082,16 +9201,11 @@
                         <td>${cargo.blNo}</td>
                         <td>${cargo.customer}</td>
                         <td>${cargo.cargoName}</td>
-                        <td>${cargo.cargoModel}</td>
                         <td>${cargo.quantity}</td>
                         <td>${cargo.weight}</td>
                         <td>${cargo.volume}</td>
                         <td><span class="status-badge ${cargo.status}">${cargo.status}</span></td>
-                        <td>${cargo.inTime}</td>
-                        <td>${cargo.outTime || '-'}</td>
                         <td>${cargo.vesselName}</td>
-                        <td>${cargo.destinationPort}</td>
-                        <td>${cargo.etd}</td>
                         <td>
                             <button class="action-btn" onclick="editCargo('${cargo.blNo}')">编辑</button>
                             <button class="action-btn delete" onclick="deleteCargo('${cargo.blNo}')">删除</button>
@@ -9138,7 +9252,7 @@
                     // 这里可以添加实际的删除逻辑
                     // 重新渲染列表
                     const cargoData = generateMockCargoData();
-                    renderCargoList(cargoData);
+                    renderCargoListByVessel(cargoData);
                 }
             }
 
@@ -9166,6 +9280,70 @@
 
             observer.observe(cargoContent, { attributes: true });
         });
+
+        // 按船舶名称分组渲染货物列表
+        function renderCargoListByVessel(cargoes) {
+            const tbody = document.getElementById('cargo-table-body');
+            tbody.innerHTML = '';
+
+            // 按船舶名称分组
+            const cargoesByVessel = {};
+            cargoes.forEach(cargo => {
+                const vesselName = cargo.vesselName || '未分配船舶';
+                if (!cargoesByVessel[vesselName]) {
+                    cargoesByVessel[vesselName] = [];
+                }
+                cargoesByVessel[vesselName].push(cargo);
+            });
+
+            // 遍历每个船舶分组
+            Object.entries(cargoesByVessel).forEach(([vesselName, vesselCargoes]) => {
+                // 创建船舶分组标题行
+                const vesselHeaderRow = document.createElement('tr');
+                vesselHeaderRow.className = 'vessel-header';
+                vesselHeaderRow.innerHTML = `
+                    <td colspan="8" style="background-color: #f5f5f5; font-weight: bold; padding: 8px;">
+                        ${vesselName} (共 ${vesselCargoes.length} 个提单)
+                    </td>
+                    <td style="background-color: #f5f5f5;"></td>
+                `;
+                tbody.appendChild(vesselHeaderRow);
+
+                // 渲染该船舶的货物
+                vesselCargoes.forEach(cargo => {
+                    const row = document.createElement('tr');
+                    // 生成3D扫描按钮
+                    const scanButton = cargo.has3DScan ? `<button class="action-btn scan" onclick="show3DScanModal('${cargo.blNo}')">3D扫描</button>` : '';
+                    
+                    row.innerHTML = `
+                        <td>${cargo.blNo}</td>
+                        <td>${cargo.customer}</td>
+                        <td>${cargo.cargoName}</td>
+                        <td>${cargo.quantity}</td>
+                        <td>${cargo.weight}</td>
+                        <td>${cargo.volume}</td>
+                        <td><span class="status-badge ${cargo.status}">${cargo.status}</span></td>
+                        <td>${cargo.vesselName}</td>
+                        <td>
+                            <button class="action-btn" onclick="editCargo('${cargo.blNo}')">编辑</button>
+                            <button class="action-btn delete" onclick="deleteCargo('${cargo.blNo}')">删除</button>
+                            ${scanButton}
+                        </td>
+                    `;
+                    // 添加点击事件
+                    row.addEventListener('click', function() {
+                        // 移除其他行的选中状态
+                        document.querySelectorAll('#cargo-table tbody tr').forEach(r => r.classList.remove('selected'));
+                        // 添加当前行的选中状态
+                        this.classList.add('selected');
+                        // 显示货物详情
+                        showCargoDetail(cargo);
+                    });
+                    
+                    tbody.appendChild(row);
+                });
+            });
+        }
     </script>
 </body>
 </html>
