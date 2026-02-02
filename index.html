@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>基本港生产管理信息系统</title>
+    <title>基本港生产信息管理系统</title>
     <!-- 百度地图API -->
     <script type="text/javascript" src="https://api.map.baidu.com/api?v=2.0&ak=nmPjPo63VZinHpnCMcrH2ppx5rs6Mk9X"></script>
     <style>
@@ -613,33 +613,6 @@
 
         .schedule-table tbody tr:nth-child(even) {
             background-color: rgba(30, 41, 59, 0.5);
-        }
-
-        .schedule-table tbody tr.status-berthing {
-            background-color: rgba(0, 200, 83, 0.15);
-            border-left: 3px solid #00c853;
-        }
-
-        .schedule-table tbody tr.status-berthing:hover {
-            background-color: rgba(0, 200, 83, 0.25);
-        }
-
-        .schedule-table tbody tr.status-departed {
-            background-color: rgba(158, 158, 158, 0.15);
-            border-left: 3px solid #9e9e9e;
-        }
-
-        .schedule-table tbody tr.status-departed:hover {
-            background-color: rgba(158, 158, 158, 0.25);
-        }
-
-        .schedule-table tbody tr.status-pending {
-            background-color: rgba(255, 193, 7, 0.15);
-            border-left: 3px solid #ffc107;
-        }
-
-        .schedule-table tbody tr.status-pending:hover {
-            background-color: rgba(255, 193, 7, 0.25);
         }
 
         .schedule-legend {
@@ -3167,6 +3140,17 @@
             background-color: rgba(220, 38, 38, 0.3);
             color: #ff0000;
         }
+
+        /* 等泊状态样式 */
+        .status-badge.否 {
+            background-color: rgba(5, 150, 105, 0.3);
+            color: #00ffae;
+        }
+
+        .status-badge.等待中 {
+            background-color: rgba(245, 158, 11, 0.3);
+            color: #fbbf24;
+        }
         
         /* 添加货物模态窗口样式 */
         .cargo-modal {
@@ -3262,6 +3246,43 @@
         
         .cargo-modal-body::-webkit-scrollbar-thumb:hover {
             background: rgba(79, 142, 255, 0.7);
+        }
+        
+        #detail-content::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        #detail-content::-webkit-scrollbar-track {
+            background: rgba(30, 41, 59, 0.3);
+            border-radius: 3px;
+        }
+        
+        #detail-content::-webkit-scrollbar-thumb {
+            background: rgba(79, 142, 255, 0.4);
+            border-radius: 3px;
+        }
+        
+        #detail-content::-webkit-scrollbar-thumb:hover {
+            background: rgba(79, 142, 255, 0.6);
+        }
+        
+        .schedule-table::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        
+        .schedule-table::-webkit-scrollbar-track {
+            background: rgba(30, 41, 59, 0.3);
+            border-radius: 4px;
+        }
+        
+        .schedule-table::-webkit-scrollbar-thumb {
+            background: rgba(79, 142, 255, 0.4);
+            border-radius: 4px;
+        }
+        
+        .schedule-table::-webkit-scrollbar-thumb:hover {
+            background: rgba(79, 142, 255, 0.6);
         }
         
         .cargo-modal-footer {
@@ -3427,7 +3448,7 @@
         <div class="sidebar">
             <div class="logo-container">
                 <img src="logo.png" alt="系统Logo">
-                <div class="system-title">基本港生产管理信息系统</div>
+                <div class="system-title">基本港生产信息管理系统</div>
             </div>
             <div class="menu">
                 <div class="menu-item active" data-content="dashboard">
@@ -3442,7 +3463,7 @@
                     <span class="menu-icon">🚢</span>
                     <span>船舶信息</span>
                 </div>
-                <div class="menu-item" data-content="port">
+                <div class="menu-item" data-content="port-management">
                     <span class="menu-icon">⚓</span>
                     <span>码头信息</span>
                 </div>
@@ -3628,21 +3649,7 @@
                                                     </tbody>
                                                 </table>
                                             </div>
-                                            <div class="schedule-legend">
-                                                <div class="legend-item">
-                                                    <div class="legend-color legend-berthing"></div>
-                                                    <span class="legend-label">已靠未离</span>
-                                                </div>
-                                                <div class="legend-item">
-                                                    <div class="legend-color legend-departed"></div>
-                                                    <span class="legend-label">已靠已离</span>
-                                                </div>
-                                                <div class="legend-item">
-                                                    <div class="legend-color legend-pending"></div>
-                                                    <span class="legend-label">未靠未离</span>
-                                                </div>
-                                            </div>
-                                        </div>
+                        </div>
                                     </div>
                                     <!-- 7日货物状态墙 -->
                                     <div class="cargo-status-wall">
@@ -4132,154 +4139,644 @@
                             </div>
                         </div>
                     </div>
-                    <div id="port-content" class="content-section" style="display: none;">
-                        <div class="section-header">
+
+                    <!-- 码头信息页面 -->
+                    <div id="port-management-content" class="content-section" style="display: none;">
+                        <div style="background: rgba(16, 24, 39, 0.8); border-radius: 12px; height: 100%;">
                             <!-- 码头信息-数据统计图表区域 -->
-                            <div class="stats-charts">
-                                <div class="chart-container">
-                                    <h3>1-18号泊位7日平均使用率</h3>
-                                    <canvas id="berth-usage-chart" class="chart" width="100%" height="300"></canvas>
-                                </div>
-                                <div class="chart-with-stats">
-                                    <div class="chart-container">
-                                        <h3>7日泊位使用率变化趋势</h3>
-                                        <canvas id="berth-trend-chart" class="chart" width="100%" height="300"></canvas>
+                            <div class="stats-charts" style="height: 100px; display: flex; gap: 10px; align-items: center;">
+                                <!-- 泊位使用率趋势 -->
+                                <div style="flex: 1; height: 100%;">
+                                    <h3 style="margin: 5px 0; font-size: 12px; text-align: center;">泊位使用率趋势</h3>
+                                    <div style="height: 70px; background: linear-gradient(to right, rgba(79, 142, 255, 0.2), rgba(79, 142, 255, 0.4)); border-radius: 4px; display: flex; align-items: flex-end; padding: 0 10px;">
+                                        <div style="width: 12%; height: 40%; background: rgba(79, 142, 255, 0.8); margin: 0 2px; border-radius: 2px 2px 0 0;"></div>
+                                        <div style="width: 12%; height: 60%; background: rgba(79, 142, 255, 0.8); margin: 0 2px; border-radius: 2px 2px 0 0;"></div>
+                                        <div style="width: 12%; height: 30%; background: rgba(79, 142, 255, 0.8); margin: 0 2px; border-radius: 2px 2px 0 0;"></div>
+                                        <div style="width: 12%; height: 70%; background: rgba(79, 142, 255, 0.8); margin: 0 2px; border-radius: 2px 2px 0 0;"></div>
+                                        <div style="width: 12%; height: 50%; background: rgba(79, 142, 255, 0.8); margin: 0 2px; border-radius: 2px 2px 0 0;"></div>
+                                        <div style="width: 12%; height: 80%; background: rgba(79, 142, 255, 0.8); margin: 0 2px; border-radius: 2px 2px 0 0;"></div>
+                                        <div style="width: 12%; height: 65%; background: rgba(79, 142, 255, 0.8); margin: 0 2px; border-radius: 2px 2px 0 0;"></div>
                                     </div>
-                                    <div class="chart-stats">
-                                        <h3>统计数据</h3>
-                                        <div class="stat-cards">
-                                            <div class="stat-card">
-                                                <div class="stat-card-number" id="total-berths">18</div>
-                                                <div class="stat-card-label">总泊位数</div>
+                                </div>
+                                <!-- 泊位停靠时长同比 -->
+                                <div style="flex: 1; height: 100%;">
+                                    <h3 style="margin: 5px 0; font-size: 12px; text-align: center;">泊位停靠时长同比</h3>
+                                    <div style="height: 70px; background: linear-gradient(to right, rgba(0, 200, 83, 0.2), rgba(0, 200, 83, 0.4)); border-radius: 4px; display: flex; align-items: center; justify-content: center;">
+                                        <div style="text-align: center;">
+                                            <div style="font-size: 16px; font-weight: bold; color: #00c853;">+12.5%</div>
+                                            <div style="font-size: 10px; color: #e6edf3;">同比增长</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- 泊位周转率 -->
+                                <div style="flex: 1; height: 100%;">
+                                    <h3 style="margin: 5px 0; font-size: 12px; text-align: center;">泊位周转率</h3>
+                                    <div style="height: 70px; background: linear-gradient(to right, rgba(255, 152, 0, 0.2), rgba(255, 152, 0, 0.4)); border-radius: 4px; display: flex; align-items: center; justify-content: center;">
+                                        <div style="text-align: center;">
+                                            <div style="font-size: 16px; font-weight: bold; color: #ff9800;">3.2次/天</div>
+                                            <div style="font-size: 10px; color: #e6edf3;">平均周转率</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Tab标签页 -->
+                            <div style="display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 1px solid rgba(79, 142, 255, 0.3); padding-bottom: 10px;">
+                                <button class="tab-button active" data-tab="basic-info" style="padding: 10px 20px; border: 1px solid rgba(79, 142, 255, 0.3); border-radius: 6px 6px 0 0; background: rgba(79, 142, 255, 0.2); color: #e6edf3; font-size: 14px; cursor: pointer; transition: all 0.3s ease;">报港船舶数据</button>
+                                <button class="tab-button" data-tab="berth-management" style="padding: 10px 20px; border: 1px solid rgba(79, 142, 255, 0.3); border-radius: 6px 6px 0 0; background: rgba(16, 24, 39, 0.9); color: #94a3b8; font-size: 14px; cursor: pointer; transition: all 0.3s ease;">24H靠离泊计划</button>
+                            </div>
+                            
+                            <!-- Tab内容区域 -->
+                            <div class="tab-content" id="basic-info-content" style="display: block;">
+                                <div style="display: block;">
+                                    <div style="background: rgba(30, 41, 59, 0.5); border-radius: 8px; padding: 20px; margin-top: 20px;">
+                                        <div style="overflow-x: auto;">
+                                            <!-- 数据过滤区域 -->
+                                            <div style="display: flex; flex-wrap: wrap; gap: 15px; margin-bottom: 20px; padding: 15px; background: rgba(30, 41, 59, 0.5); border-radius: 4px; border: 1px solid rgba(79, 142, 255, 0.3);">
+                                                <div style="flex: 1 1 200px;">
+                                                    <label style="display: block; margin-bottom: 5px; color: #e6edf3; font-size: 14px;">船舶名称</label>
+                                                    <input type="text" placeholder="请输入船舶名称" class="filter-input" style="width: 100%;">
+                                                </div>
+                                                <div style="flex: 1 1 200px;">
+                                                    <label style="display: block; margin-bottom: 5px; color: #e6edf3; font-size: 14px;">泊位号</label>
+                                                    <input type="text" placeholder="请输入泊位号" class="filter-input" style="width: 100%;">
+                                                </div>
+                                                <div style="flex: 1 1 200px;">
+                                                    <label style="display: block; margin-bottom: 5px; color: #e6edf3; font-size: 14px;">预靠港时间</label>
+                                                    <input type="datetime-local" class="filter-input" style="width: 100%;">
+                                                </div>
+                                                <div style="flex: 1 1 200px;">
+                                                    <label style="display: block; margin-bottom: 5px; color: #e6edf3; font-size: 14px;">预离港时间</label>
+                                                    <input type="datetime-local" class="filter-input" style="width: 100%;">
+                                                </div>
+                                                <div style="flex: 1 1 200px;">
+                                                    <label style="display: block; margin-bottom: 5px; color: #e6edf3; font-size: 14px;">申报时间</label>
+                                                    <input type="datetime-local" class="filter-input" style="width: 100%;">
+                                                </div>
+                                                <div style="flex: 0 0 auto; align-self: flex-end;">
+                                                    <button style="padding: 6px 20px; background: rgba(30, 41, 59, 0.5); border: 1px solid rgba(79, 142, 255, 0.3); border-radius: 4px; color: #e6edf3; font-size: 14px; cursor: pointer; transition: all 0.3s ease;">重置</button>
+                                                    <button style="padding: 6px 20px; margin-left: 10px; background: rgba(79, 142, 255, 0.6); border: 1px solid rgba(79, 142, 255, 0.8); border-radius: 4px; color: #ffffff; font-size: 14px; cursor: pointer; transition: all 0.3s ease;">搜索</button>
+                                                </div>
                                             </div>
-                                            <div class="stat-card">
-                                                <div class="stat-card-number" id="avg-usage">0%</div>
-                                                <div class="stat-card-label">7日平均使用率</div>
-                                            </div>
-                                            <div class="stat-card">
-                                                <div class="stat-card-number" id="max-usage">0%</div>
-                                                <div class="stat-card-label">最高使用率</div>
-                                            </div>
-                                            <div class="stat-card">
-                                                <div class="stat-card-number" id="min-usage">0%</div>
-                                                <div class="stat-card-label">最低使用率</div>
+                                            <!-- 左右分栏布局 -->
+                                            <div style="display: flex; gap: 20px; align-items: flex-start;">
+                                                <!-- 左侧表格区域 -->
+                                                <div style="flex: 0 0 65%; overflow-x: auto; overflow-y: auto; max-height: 600px;">
+                                                    <table class="schedule-table" style="width: 100%; border-collapse: collapse;">
+                                                        <thead style="position: sticky; top: 0; background: rgba(16, 24, 39, 0.95); z-index: 5;">
+                                                            <tr style="border-bottom: 1px solid rgba(79, 142, 255, 0.3);">
+                                                                <th>船舶名称</th>
+                                                                <th>IMO号</th>
+                                                                <th>预靠码头-泊位</th>
+                                                                <th>预靠港时间</th>
+                                                                <th>预离港时间</th>
+                                                                <th>进口航次</th>
+                                                                <th>出口航次</th>
+                                                                <th>等泊状态</th>
+                                                                <th>申报时间</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                    <tr style="border-bottom: 1px solid rgba(79, 142, 255, 0.1);">
+                                                        <td style="padding: 12px; color: #e6edf3;">中远海运1号</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">1234567</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">一期码头-1泊位</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">2026-01-29 08:00</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">2026-01-30 12:00</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">COSCO001</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">COSCO002</td>
+                                                        <td style="padding: 12px;"><span class="status-badge 否">否</span></td>
+                                                        <td style="padding: 12px; color: #e6edf3;">2026-01-28 16:00</td>
+                                                    </tr>
+                                                    <tr style="border-bottom: 1px solid rgba(79, 142, 255, 0.1);">
+                                                        <td style="padding: 12px; color: #e6edf3;">东方海外2号</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">2345678</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">二期码头-2泊位</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">2026-01-29 09:30</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">2026-01-30 14:30</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">OOCL001</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">OOCL002</td>
+                                                        <td style="padding: 12px;"><span class="status-badge 等待中">等待中</span></td>
+                                                        <td style="padding: 12px; color: #e6edf3;">2026-01-28 17:30</td>
+                                                    </tr>
+                                                    <tr style="border-bottom: 1px solid rgba(79, 142, 255, 0.1);">
+                                                        <td style="padding: 12px; color: #e6edf3;">马士基3号</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">3456789</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">三期码头-3泊位</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">2026-01-29 10:00</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">2026-01-30 15:00</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">MAERSK001</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">MAERSK002</td>
+                                                        <td style="padding: 12px;"><span class="status-badge 否">否</span></td>
+                                                        <td style="padding: 12px; color: #e6edf3;">2026-01-28 18:00</td>
+                                                    </tr>
+                                                    <tr style="border-bottom: 1px solid rgba(79, 142, 255, 0.1);">
+                                                        <td style="padding: 12px; color: #e6edf3;">地中海4号</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">4567890</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">一期码头-4泊位</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">2026-01-29 11:00</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">2026-01-30 16:00</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">MSC001</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">MSC002</td>
+                                                        <td style="padding: 12px;"><span class="status-badge 等待中">等待中</span></td>
+                                                        <td style="padding: 12px; color: #e6edf3;">2026-01-28 19:00</td>
+                                                    </tr>
+                                                    <tr style="border-bottom: 1px solid rgba(79, 142, 255, 0.1);">
+                                                        <td style="padding: 12px; color: #e6edf3;">长荣5号</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">5678901</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">二期码头-5泊位</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">2026-01-29 12:00</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">2026-01-30 17:00</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">EVER001</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">EVER002</td>
+                                                        <td style="padding: 12px;"><span class="status-badge 否">否</span></td>
+                                                        <td style="padding: 12px; color: #e6edf3;">2026-01-28 20:00</td>
+                                                    </tr>
+                                                    <tr style="border-bottom: 1px solid rgba(79, 142, 255, 0.1);">
+                                                        <td style="padding: 12px; color: #e6edf3;">阳明6号</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">6789012</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">三期码头-6泊位</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">2026-01-29 13:00</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">2026-01-30 18:00</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">YANG001</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">YANG002</td>
+                                                        <td style="padding: 12px;"><span class="status-badge 等待中">等待中</span></td>
+                                                        <td style="padding: 12px; color: #e6edf3;">2026-01-28 21:00</td>
+                                                    </tr>
+                                                    <tr style="border-bottom: 1px solid rgba(79, 142, 255, 0.1);">
+                                                        <td style="padding: 12px; color: #e6edf3;">万海7号</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">7890123</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">一期码头-7泊位</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">2026-01-29 14:00</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">2026-01-30 19:00</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">WAN001</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">WAN002</td>
+                                                        <td style="padding: 12px;"><span class="status-badge 否">否</span></td>
+                                                        <td style="padding: 12px; color: #e6edf3;">2026-01-28 22:00</td>
+                                                    </tr>
+                                                    <tr style="border-bottom: 1px solid rgba(79, 142, 255, 0.1);">
+                                                        <td style="padding: 12px; color: #e6edf3;">太平8号</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">8901234</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">二期码头-8泊位</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">2026-01-29 15:00</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">2026-01-30 20:00</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">PIL001</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">PIL002</td>
+                                                        <td style="padding: 12px;"><span class="status-badge 等待中">等待中</span></td>
+                                                        <td style="padding: 12px; color: #e6edf3;">2026-01-28 23:00</td>
+                                                    </tr>
+                                                    <tr style="border-bottom: 1px solid rgba(79, 142, 255, 0.1);">
+                                                        <td style="padding: 12px; color: #e6edf3;">达飞9号</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">9012345</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">三期码头-9泊位</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">2026-01-29 16:00</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">2026-01-30 21:00</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">CMA001</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">CMA002</td>
+                                                        <td style="padding: 12px;"><span class="status-badge 否">否</span></td>
+                                                        <td style="padding: 12px; color: #e6edf3;">2026-01-29 00:00</td>
+                                                    </tr>
+                                                    <tr style="border-bottom: 1px solid rgba(79, 142, 255, 0.1);">
+                                                        <td style="padding: 12px; color: #e6edf3;">赫伯罗特10号</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">0123456</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">一期码头-10泊位</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">2026-01-29 17:00</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">2026-01-30 22:00</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">HLC001</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">HLC002</td>
+                                                        <td style="padding: 12px;"><span class="status-badge 等待中">等待中</span></td>
+                                                        <td style="padding: 12px; color: #e6edf3;">2026-01-29 01:00</td>
+                                                    </tr>
+                                                    <tr style="border-bottom: 1px solid rgba(79, 142, 255, 0.1);">
+                                                        <td style="padding: 12px; color: #e6edf3;">中远海运11号</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">1234568</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">二期码头-11泊位</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">2026-01-29 18:00</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">2026-01-30 23:00</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">COSCO011</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">COSCO012</td>
+                                                        <td style="padding: 12px;"><span class="status-badge 否">否</span></td>
+                                                        <td style="padding: 12px; color: #e6edf3;">2026-01-29 02:00</td>
+                                                    </tr>
+                                                    <tr style="border-bottom: 1px solid rgba(79, 142, 255, 0.1);">
+                                                        <td style="padding: 12px; color: #e6edf3;">东方海外12号</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">2345679</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">三期码头-12泊位</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">2026-01-29 19:00</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">2026-01-31 00:00</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">OOCL011</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">OOCL012</td>
+                                                        <td style="padding: 12px;"><span class="status-badge 等待中">等待中</span></td>
+                                                        <td style="padding: 12px; color: #e6edf3;">2026-01-29 03:00</td>
+                                                    </tr>
+                                                    <tr style="border-bottom: 1px solid rgba(79, 142, 255, 0.1);">
+                                                        <td style="padding: 12px; color: #e6edf3;">马士基13号</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">3456790</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">一期码头-13泊位</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">2026-01-29 20:00</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">2026-01-31 01:00</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">MAERSK011</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">MAERSK012</td>
+                                                        <td style="padding: 12px;"><span class="status-badge 否">否</span></td>
+                                                        <td style="padding: 12px; color: #e6edf3;">2026-01-29 04:00</td>
+                                                    </tr>
+                                                    <tr style="border-bottom: 1px solid rgba(79, 142, 255, 0.1);">
+                                                        <td style="padding: 12px; color: #e6edf3;">地中海14号</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">4567901</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">二期码头-14泊位</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">2026-01-29 21:00</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">2026-01-31 02:00</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">MSC011</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">MSC012</td>
+                                                        <td style="padding: 12px;"><span class="status-badge 等待中">等待中</span></td>
+                                                        <td style="padding: 12px; color: #e6edf3;">2026-01-29 05:00</td>
+                                                    </tr>
+                                                    <tr style="border-bottom: 1px solid rgba(79, 142, 255, 0.1);">
+                                                        <td style="padding: 12px; color: #e6edf3;">长荣15号</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">5679012</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">三期码头-15泊位</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">2026-01-29 22:00</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">2026-01-31 03:00</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">EVER011</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">EVER012</td>
+                                                        <td style="padding: 12px;"><span class="status-badge 否">否</span></td>
+                                                        <td style="padding: 12px; color: #e6edf3;">2026-01-29 06:00</td>
+                                                    </tr>
+                                                    <tr style="border-bottom: 1px solid rgba(79, 142, 255, 0.1);">
+                                                        <td style="padding: 12px; color: #e6edf3;">阳明16号</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">6790123</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">一期码头-16泊位</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">2026-01-29 23:00</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">2026-01-31 04:00</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">YANG011</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">YANG012</td>
+                                                        <td style="padding: 12px;"><span class="status-badge 等待中">等待中</span></td>
+                                                        <td style="padding: 12px; color: #e6edf3;">2026-01-29 07:00</td>
+                                                    </tr>
+                                                    <tr style="border-bottom: 1px solid rgba(79, 142, 255, 0.1);">
+                                                        <td style="padding: 12px; color: #e6edf3;">万海17号</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">7901234</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">二期码头-17泊位</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">2026-01-30 00:00</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">2026-01-31 05:00</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">WAN011</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">WAN012</td>
+                                                        <td style="padding: 12px;"><span class="status-badge 否">否</span></td>
+                                                        <td style="padding: 12px; color: #e6edf3;">2026-01-29 08:00</td>
+                                                    </tr>
+                                                    <tr style="border-bottom: 1px solid rgba(79, 142, 255, 0.1);">
+                                                        <td style="padding: 12px; color: #e6edf3;">太平18号</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">9012346</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">三期码头-18泊位</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">2026-01-30 01:00</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">2026-01-31 06:00</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">PIL011</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">PIL012</td>
+                                                        <td style="padding: 12px;"><span class="status-badge 等待中">等待中</span></td>
+                                                        <td style="padding: 12px; color: #e6edf3;">2026-01-29 09:00</td>
+                                                    </tr>
+                                                    <tr style="border-bottom: 1px solid rgba(79, 142, 255, 0.1);">
+                                                        <td style="padding: 12px; color: #e6edf3;">达飞19号</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">0123458</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">一期码头-19泊位</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">2026-01-30 02:00</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">2026-01-31 07:00</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">CMA011</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">CMA012</td>
+                                                        <td style="padding: 12px;"><span class="status-badge 否">否</span></td>
+                                                        <td style="padding: 12px; color: #e6edf3;">2026-01-29 10:00</td>
+                                                    </tr>
+                                                    <tr style="border-bottom: 1px solid rgba(79, 142, 255, 0.1);">
+                                                        <td style="padding: 12px; color: #e6edf3;">赫伯罗特20号</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">1234578</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">二期码头-20泊位</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">2026-01-30 03:00</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">2026-01-31 08:00</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">HLC011</td>
+                                                        <td style="padding: 12px; color: #e6edf3;">HLC012</td>
+                                                        <td style="padding: 12px;"><span class="status-badge 等待中">等待中</span></td>
+                                                        <td style="padding: 12px; color: #e6edf3;">2026-01-29 11:00</td>
+                                                    </tr>
+                                                    </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <!-- 右侧详情面板 -->
+                                                <div id="ship-detail-panel" style="flex: 0 0 35%; background: rgba(30, 41, 59, 0.5); border-radius: 8px; padding: 20px; border: 1px solid rgba(79, 142, 255, 0.3); min-height: 400px; max-height: 600px; display: flex; flex-direction: column; overflow: hidden;">
+                                                    <div id="detail-placeholder" style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; color: #94a3b8; min-height: 300px; flex: 1;">
+                                                        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 16px;">
+                                                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                                            <polyline points="14 2 14 8 20 8"></polyline>
+                                                            <line x1="16" y1="13" x2="8" y2="13"></line>
+                                                            <line x1="16" y1="17" x2="8" y2="17"></line>
+                                                            <polyline points="10 9 9 9 8 9"></polyline>
+                                                        </svg>
+                                                        <p style="font-size: 14px;">请点击左侧列表中的行查看详情</p>
+                                                        <p style="font-size: 12px; margin-top: 8px;">查看船舶报港数据详情</p>
+                                                    </div>
+                                                    <div id="detail-content" style="display: none; flex: 1; overflow-y: auto; padding-right: 5px;">
+                                                        <div style="display: flex; align-items: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid rgba(79, 142, 255, 0.3); position: sticky; top: 0; background: rgba(30, 41, 59, 0.95); padding-top: 10px; z-index: 10; backdrop-filter: blur(5px);">
+                                                            <div style="width: 48px; height: 48px; background: rgba(79, 142, 255, 0.2); border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-right: 15px;">
+                                                                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#4f8eff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                                                    <circle cx="12" cy="7" r="4"></circle>
+                                                                </svg>
+                                                            </div>
+                                                            <div>
+                                                                <h3 id="detail-ship-name" style="margin: 0; color: #e6edf3; font-size: 18px;">船舶名称</h3>
+                                                                <p id="detail-imo" style="margin: 4px 0 0; color: #94a3b8; font-size: 13px;">IMO号</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="info-grid">
+                                                            <div class="info-item">
+                                                                <span class="info-label">申报时间</span>
+                                                                <span id="detail-declare-time" class="info-value">-</span>
+                                                            </div>
+                                                            <div class="info-item">
+                                                                <span class="info-label">申报人单位代码</span>
+                                                                <span id="detail-declarant-unit-code" class="info-value">-</span>
+                                                            </div>
+                                                            <div class="info-item">
+                                                                <span class="info-label">申报人代码</span>
+                                                                <span id="detail-declarant-code" class="info-value">-</span>
+                                                            </div>
+                                                            <div class="info-item">
+                                                                <span class="info-label">英文船名</span>
+                                                                <span id="detail-english-name" class="info-value">-</span>
+                                                            </div>
+                                                            <div class="info-item">
+                                                                <span class="info-label">船名</span>
+                                                                <span id="detail-chinese-name" class="info-value">-</span>
+                                                            </div>
+                                                            <div class="info-item">
+                                                                <span class="info-label">IMO/识别号</span>
+                                                                <span id="detail-imo-full" class="info-value">-</span>
+                                                            </div>
+                                                            <div class="info-item">
+                                                                <span class="info-label">MMSI</span>
+                                                                <span id="detail-mmsi" class="info-value">-</span>
+                                                            </div>
+                                                            <div class="info-item">
+                                                                <span class="info-label">船舶呼号</span>
+                                                                <span id="detail-call-sign" class="info-value">-</span>
+                                                            </div>
+                                                            <div class="info-item">
+                                                                <span class="info-label">申报港区</span>
+                                                                <span id="detail-port-area" class="info-value">-</span>
+                                                            </div>
+                                                            <div class="info-item">
+                                                                <span class="info-label">预靠码头</span>
+                                                                <span id="detail-terminal" class="info-value">-</span>
+                                                            </div>
+                                                            <div class="info-item">
+                                                                <span class="info-label">码头泊位</span>
+                                                                <span id="detail-berth" class="info-value">-</span>
+                                                            </div>
+                                                            <div class="info-item">
+                                                                <span class="info-label">预抵长江口时间</span>
+                                                                <span id="detail-arrival-yangtze" class="info-value">-</span>
+                                                            </div>
+                                                            <div class="info-item">
+                                                                <span class="info-label">预靠港时间</span>
+                                                                <span id="detail-arrival" class="info-value">-</span>
+                                                            </div>
+                                                            <div class="info-item">
+                                                                <span class="info-label">预离港时间</span>
+                                                                <span id="detail-departure" class="info-value">-</span>
+                                                            </div>
+                                                            <div class="info-item">
+                                                                <span class="info-label">报港类型</span>
+                                                                <span id="detail-declaration-type" class="info-value">-</span>
+                                                            </div>
+                                                            <div class="info-item">
+                                                                <span class="info-label">报港时船舶位置</span>
+                                                                <span id="detail-ship-position" class="info-value">-</span>
+                                                            </div>
+                                                            <div class="info-item">
+                                                                <span class="info-label">是否分流船</span>
+                                                                <span id="detail-is-diversion" class="info-value">-</span>
+                                                            </div>
+                                                            <div class="info-item">
+                                                                <span class="info-label">母船船期</span>
+                                                                <span id="detail-mother-ship-schedule" class="info-value">-</span>
+                                                            </div>
+                                                            <div class="info-item">
+                                                                <span class="info-label">装货港代码</span>
+                                                                <span id="detail-loading-port-code" class="info-value">-</span>
+                                                            </div>
+                                                            <div class="info-item">
+                                                                <span class="info-label">目的港代码</span>
+                                                                <span id="detail-destination-port-code" class="info-value">-</span>
+                                                            </div>
+                                                            <div class="info-item">
+                                                                <span class="info-label">上一港代码</span>
+                                                                <span id="detail-last-port-code" class="info-value">-</span>
+                                                            </div>
+                                                            <div class="info-item">
+                                                                <span class="info-label">下一港代码</span>
+                                                                <span id="detail-next-port-code" class="info-value">-</span>
+                                                            </div>
+                                                            <div class="info-item">
+                                                                <span class="info-label">船上联系电话</span>
+                                                                <span id="detail-ship-phone" class="info-value">-</span>
+                                                            </div>
+                                                            <div class="info-item">
+                                                                <span class="info-label">作业类型</span>
+                                                                <span id="detail-operation-type" class="info-value">-</span>
+                                                            </div>
+                                                            <div class="info-item">
+                                                                <span class="info-label">进口航次</span>
+                                                                <span id="detail-import-voyage" class="info-value">-</span>
+                                                            </div>
+                                                            <div class="info-item">
+                                                                <span class="info-label">进口航线</span>
+                                                                <span id="detail-import-route" class="info-value">-</span>
+                                                            </div>
+                                                            <div class="info-item">
+                                                                <span class="info-label">进口内外贸</span>
+                                                                <span id="detail-import-trade-type" class="info-value">-</span>
+                                                            </div>
+                                                            <div class="info-item">
+                                                                <span class="info-label">进口船公司代码</span>
+                                                                <span id="detail-import-company-code" class="info-value">-</span>
+                                                            </div>
+                                                            <div class="info-item">
+                                                                <span class="info-label">进口船公司名称</span>
+                                                                <span id="detail-import-company-name" class="info-value">-</span>
+                                                            </div>
+                                                            <div class="info-item">
+                                                                <span class="info-label">进口船舶代理代码</span>
+                                                                <span id="detail-import-agent-code" class="info-value">-</span>
+                                                            </div>
+                                                            <div class="info-item">
+                                                                <span class="info-label">进口船舶代理名称</span>
+                                                                <span id="detail-import-agent-name" class="info-value">-</span>
+                                                            </div>
+                                                            <div class="info-item">
+                                                                <span class="info-label">进口代理电话</span>
+                                                                <span id="detail-import-agent-phone" class="info-value">-</span>
+                                                            </div>
+                                                            <div class="info-item">
+                                                                <span class="info-label">进口前吃水</span>
+                                                                <span id="detail-import-draft-before" class="info-value">-</span>
+                                                            </div>
+                                                            <div class="info-item">
+                                                                <span class="info-label">进口后吃水</span>
+                                                                <span id="detail-import-draft-after" class="info-value">-</span>
+                                                            </div>
+                                                            <div class="info-item">
+                                                                <span class="info-label">出口航次</span>
+                                                                <span id="detail-export-voyage" class="info-value">-</span>
+                                                            </div>
+                                                            <div class="info-item">
+                                                                <span class="info-label">出口航线</span>
+                                                                <span id="detail-export-route" class="info-value">-</span>
+                                                            </div>
+                                                            <div class="info-item">
+                                                                <span class="info-label">出口内外贸</span>
+                                                                <span id="detail-export-trade-type" class="info-value">-</span>
+                                                            </div>
+                                                            <div class="info-item">
+                                                                <span class="info-label">出口船公司代码</span>
+                                                                <span id="detail-export-company-code" class="info-value">-</span>
+                                                            </div>
+                                                            <div class="info-item">
+                                                                <span class="info-label">出口船公司名称</span>
+                                                                <span id="detail-export-company-name" class="info-value">-</span>
+                                                            </div>
+                                                            <div class="info-item">
+                                                                <span class="info-label">出口船舶代理代码</span>
+                                                                <span id="detail-export-agent-code" class="info-value">-</span>
+                                                            </div>
+                                                            <div class="info-item">
+                                                                <span class="info-label">出口船舶代理名称</span>
+                                                                <span id="detail-export-agent-name" class="info-value">-</span>
+                                                            </div>
+                                                            <div class="info-item">
+                                                                <span class="info-label">出口代理电话</span>
+                                                                <span id="detail-export-agent-phone" class="info-value">-</span>
+                                                            </div>
+                                                            <div class="info-item">
+                                                                <span class="info-label">出口前吃水</span>
+                                                                <span id="detail-export-draft-before" class="info-value">-</span>
+                                                            </div>
+                                                            <div class="info-item">
+                                                                <span class="info-label">出口后吃水</span>
+                                                                <span id="detail-export-draft-after" class="info-value">-</span>
+                                                            </div>
+                                                            <div class="info-item">
+                                                                <span class="info-label">等泊状态</span>
+                                                                <span id="detail-status" class="info-value">-</span>
+                                                            </div>
+                                                            <div class="info-item">
+                                                                <span class="info-label">抵锚时间</span>
+                                                                <span id="detail-anchor-time" class="info-value">-</span>
+                                                            </div>
+                                                            <div class="info-item">
+                                                                <span class="info-label">处理状态</span>
+                                                                <span id="detail-process-status" class="info-value">-</span>
+                                                            </div>
+                                                            <div class="info-item">
+                                                                <span class="info-label">完成靠泊时间</span>
+                                                                <span id="detail-berth-complete-time" class="info-value">-</span>
+                                                            </div>
+                                                            <div class="info-item">
+                                                                <span class="info-label">取消靠泊/撤销作业原因</span>
+                                                                <span id="detail-cancel-reason" class="info-value">-</span>
+                                                            </div>
+                                                            <div class="info-item">
+                                                                <span class="info-label">处理描述</span>
+                                                                <span id="detail-process-desc" class="info-value">-</span>
+                                                            </div>
+                                                            <div class="info-item">
+                                                                <span class="info-label">微信报港时间</span>
+                                                                <span id="detail-wechat-declare-time" class="info-value">-</span>
+                                                            </div>
+                                                            <div class="info-item">
+                                                                <span class="info-label">具备作业条件时间</span>
+                                                                <span id="detail-operation-ready-time" class="info-value">-</span>
+                                                            </div>
+                                                            <div class="info-item">
+                                                                <span class="info-label">停靠开始位置</span>
+                                                                <span id="detail-berth-start-position" class="info-value">-</span>
+                                                            </div>
+                                                            <div class="info-item">
+                                                                <span class="info-label">停靠结束位置</span>
+                                                                <span id="detail-berth-end-position" class="info-value">-</span>
+                                                            </div>
+                                                            <div class="info-item">
+                                                                <span class="info-label">是否挂靠外挡</span>
+                                                                <span id="detail-is-outer-side" class="info-value">-</span>
+                                                            </div>
+                                                            <div class="info-item">
+                                                                <span class="info-label">实际停靠方向</span>
+                                                                <span id="detail-actual-direction" class="info-value">-</span>
+                                                            </div>
+                                                            <div class="info-item">
+                                                                <span class="info-label">吃水</span>
+                                                                <span id="detail-draft" class="info-value">-</span>
+                                                            </div>
+                                                            <div class="info-item">
+                                                                <span class="info-label">撤销作业原因描述</span>
+                                                                <span id="detail-cancel-desc" class="info-value">-</span>
+                                                            </div>
+                                                            <div class="info-item">
+                                                                <span class="info-label">取消靠泊原因分类</span>
+                                                                <span id="detail-cancel-reason-type" class="info-value">-</span>
+                                                            </div>
+                                                            <div class="info-item">
+                                                                <span class="info-label">开工时间</span>
+                                                                <span id="detail-start-time" class="info-value">-</span>
+                                                            </div>
+                                                            <div class="info-item">
+                                                                <span class="info-label">完工时间</span>
+                                                                <span id="detail-end-time" class="info-value">-</span>
+                                                            </div>
+                                                            <div class="info-item">
+                                                                <span class="info-label">作业时长</span>
+                                                                <span id="detail-operation-duration" class="info-value">-</span>
+                                                            </div>
+                                                            <div class="info-item">
+                                                                <span class="info-label">备注信息</span>
+                                                                <span id="detail-remark" class="info-value">-</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <!-- 码头信息-码头泊位清单 -->
-                        <div class="berth-container">
-                            <div class="berth-header">
-                                <h3>码头泊位清单</h3>
-                                <div class="berth-stats">
-                                    <div class="berth-stat-item">
-                                        <span class="berth-stat-number" id="berth-total">0</span>
-                                        <span class="berth-stat-label">总泊位</span>
+                            
+                            <div class="tab-content" id="berth-management-content" style="display: none;">
+                                <div class="schedule-list" style="float: left; width: 100%;">
+                                    <div class="schedule-table-container">
+                                        <table class="schedule-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>船名</th>
+                                                    <th>IMO</th>
+                                                    <th>进港航次</th>
+                                                    <th>出港航次</th>
+                                                    <th>计划靠泊时间</th>
+                                                    <th>计划开工时间</th>
+                                                    <th>计划完工时间</th>
+                                                    <th>计划离泊时间</th>
+                                                    <th>码头-泊位</th>
+                                                    <th>装卸标志</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="schedule-table-body-berth">
+                                                <!-- 靠离泊计划数据将通过JavaScript动态添加 -->
+                                            </tbody>
+                                        </table>
                                     </div>
-                                    <div class="berth-stat-item">
-                                        <span class="berth-stat-number" id="berth-occupied">0</span>
-                                        <span class="berth-stat-label">已占用</span>
-                                    </div>
-                                    <div class="berth-stat-item">
-                                        <span class="berth-stat-number" id="berth-vacant">0</span>
-                                        <span class="berth-stat-label">空闲</span>
-                                    </div>
-                                    <div class="berth-stat-item">
-                                        <span class="berth-stat-number" id="berth-occupancy-rate">0%</span>
-                                        <span class="berth-stat-label">占用率</span>
-                                    </div>
-                                    <div class="berth-stat-item">
-                                        <span class="berth-stat-number" id="berth-avg-duration">0h</span>
-                                        <span class="berth-stat-label">平均时长</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="berth-grid" id="berth-grid">
-                                <!-- 泊位信息将通过JavaScript动态添加 -->
-                            </div>
-                        </div>
-                        <!-- 码头信息-靠离泊计划 -->
-                        <div class="schedule-list" style="float: left; width: calc(60% - 10px); margin-right: 20px;">
-                            <div class="schedule-header">
-                                <h3>靠离泊计划</h3>
-                                <div class="schedule-stats">
-                                    <div class="schedule-stat-item">
-                                        <span class="schedule-stat-number" id="schedule-berthing">0</span>
-                                        <span class="schedule-stat-label">靠泊</span>
-                                    </div>
-                                    <div class="schedule-stat-item">
-                                        <span class="schedule-stat-number" id="schedule-departure">0</span>
-                                        <span class="schedule-stat-label">离泊</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="schedule-table-container">
-                                <table class="schedule-table">
-                                    <thead>
-                                        <tr>
-                                            <th>IMO</th>
-                                            <th>船名</th>
-                                            <th>进港航次</th>
-                                            <th>出港航次</th>
-                                            <th>靠泊时间</th>
-                                            <th>离泊时间</th>
-                                            <th>泊位</th>
-                                            <th>抵港时间</th>
-                                            <th>船代名称</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="schedule-table-body">
-                                        <!-- 靠离泊计划数据将通过JavaScript动态添加 -->
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="schedule-legend">
-                                <div class="legend-item">
-                                    <div class="legend-color legend-berthing"></div>
-                                    <span class="legend-label">已靠未离</span>
-                                </div>
-                                <div class="legend-item">
-                                    <div class="legend-color legend-departed"></div>
-                                    <span class="legend-label">已靠已离</span>
-                                </div>
-                                <div class="legend-item">
-                                    <div class="legend-color legend-pending"></div>
-                                    <span class="legend-label">未靠未离</span>
                                 </div>
                             </div>
                         </div>
-                        <!-- 码头信息-等泊船清单 -->
-                        <div class="waiting-list" style="float: left; width: calc(40% - 10px);">
-                            <div class="waiting-header">
-                                <h3>等泊船清单</h3>
-                                <div class="waiting-stats">
-                                    <div class="waiting-stat-item">
-                                        <span class="waiting-stat-number" id="waiting-total-port">0</span>
-                                        <span class="waiting-stat-label">船舶数</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="waiting-table-container">
-                                <table class="waiting-table">
-                                    <thead>
-                                        <tr>
-                                            <th>船名</th>
-                                            <th>船型</th>
-                                            <th>吨位</th>
-                                            <th>锚地</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="waiting-table-body-port">
-                                        <!-- 等泊船数据将通过JavaScript动态添加 -->
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        <!-- 清除浮动 -->
-                        <div style="clear: both;"></div>
                     </div>
+                    
                     <div id="video-content" class="content-section" style="display: none;">
                         <div style="display: flex; height: 100%; gap: 20px;">
                             <!-- 视频监控-设备列表 -->
@@ -4641,9 +5138,9 @@
                     title: '船舶信息管理',
                     subtitle: '监控和管理所有船舶的运营状态'
                 },
-                'port': {
-                    title: '码头信息管理',
-                    subtitle: '查看和管理码头设施及运营数据'
+                'port-management': {
+                    title: '码头信息',
+                    subtitle: '全面管理码头船舶报港、泊位和运营数据'
                 },
                 'video': {
                     title: '视频监控系统',
@@ -4707,6 +5204,264 @@
             // 初始加载时，在总览页面初始化视频监控和泊位清单
             initVideoMonitor();
             initBerthList();
+            
+            // 初始化码头信息页面的tab切换功能
+            function initPortManagementTabs() {
+                const tabButtons = document.querySelectorAll('.tab-button');
+                const tabContents = document.querySelectorAll('.tab-content');
+                
+                tabButtons.forEach(button => {
+                    button.addEventListener('click', function() {
+                        // 移除所有tab按钮的活动状态
+                        tabButtons.forEach(btn => {
+                            btn.classList.remove('active');
+                            btn.style.background = 'rgba(16, 24, 39, 0.9)';
+                            btn.style.color = '#94a3b8';
+                        });
+                        
+                        // 添加当前tab按钮的活动状态
+                        this.classList.add('active');
+                        this.style.background = 'rgba(79, 142, 255, 0.2)';
+                        this.style.color = '#e6edf3';
+                        
+                        // 隐藏所有tab内容
+                        tabContents.forEach(content => {
+                            content.style.display = 'none';
+                        });
+                        
+                        // 显示对应tab内容
+                        const tabId = this.getAttribute('data-tab');
+                        const targetContent = document.getElementById(tabId + '-content');
+                        if (targetContent) {
+                            targetContent.style.display = 'block';
+                        }
+                        
+                        // 如果切换到泊位管理标签，初始化靠离泊计划数据
+                        if (tabId === 'berth-management') {
+                            initPortScheduleList();
+                        }
+                    });
+                });
+            }
+            
+            // 当切换到码头信息页面时初始化tab功能
+            menuItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    const contentId = this.getAttribute('data-content') + '-content';
+                    if (contentId === 'port-management-content') {
+                        // 延迟调用，确保DOM完全加载
+                        setTimeout(initPortManagementTabs, 100);
+                        // 初始化船舶报港数据详情功能
+                        setTimeout(initShipDetailPanel, 200);
+                    }
+                });
+            });
+
+            // 初始化船舶报港数据详情面板功能
+            function initShipDetailPanel() {
+                const tableBody = document.querySelector('#basic-info-content tbody');
+                const tableRows = tableBody.querySelectorAll('tr');
+                const detailPlaceholder = document.getElementById('detail-placeholder');
+                const detailContent = document.getElementById('detail-content');
+                const detailShipName = document.getElementById('detail-ship-name');
+                const detailImo = document.getElementById('detail-imo');
+                const detailBerth = document.getElementById('detail-berth');
+                const detailStatus = document.getElementById('detail-status');
+                const detailImportVoyage = document.getElementById('detail-import-voyage');
+                const detailExportVoyage = document.getElementById('detail-export-voyage');
+                const detailArrival = document.getElementById('detail-arrival');
+                const detailDeparture = document.getElementById('detail-departure');
+                const detailDeclareTime = document.getElementById('detail-declare-time');
+                const detailDeclarantUnitCode = document.getElementById('detail-declarant-unit-code');
+                const detailDeclarantCode = document.getElementById('detail-declarant-code');
+                const detailEnglishName = document.getElementById('detail-english-name');
+                const detailChineseName = document.getElementById('detail-chinese-name');
+                const detailImoFull = document.getElementById('detail-imo-full');
+                const detailMmsi = document.getElementById('detail-mmsi');
+                const detailCallSign = document.getElementById('detail-call-sign');
+                const detailPortArea = document.getElementById('detail-port-area');
+                const detailTerminal = document.getElementById('detail-terminal');
+                const detailArrivalYangtze = document.getElementById('detail-arrival-yangtze');
+                const detailDeclarationType = document.getElementById('detail-declaration-type');
+                const detailShipPosition = document.getElementById('detail-ship-position');
+                const detailIsDiversion = document.getElementById('detail-is-diversion');
+                const detailMotherShipSchedule = document.getElementById('detail-mother-ship-schedule');
+                const detailLoadingPortCode = document.getElementById('detail-loading-port-code');
+                const detailDestinationPortCode = document.getElementById('detail-destination-port-code');
+                const detailLastPortCode = document.getElementById('detail-last-port-code');
+                const detailNextPortCode = document.getElementById('detail-next-port-code');
+                const detailShipPhone = document.getElementById('detail-ship-phone');
+                const detailOperationType = document.getElementById('detail-operation-type');
+                const detailImportRoute = document.getElementById('detail-import-route');
+                const detailImportTradeType = document.getElementById('detail-import-trade-type');
+                const detailImportCompanyCode = document.getElementById('detail-import-company-code');
+                const detailImportCompanyName = document.getElementById('detail-import-company-name');
+                const detailImportAgentCode = document.getElementById('detail-import-agent-code');
+                const detailImportAgentName = document.getElementById('detail-import-agent-name');
+                const detailImportAgentPhone = document.getElementById('detail-import-agent-phone');
+                const detailImportDraftBefore = document.getElementById('detail-import-draft-before');
+                const detailImportDraftAfter = document.getElementById('detail-import-draft-after');
+                const detailExportRoute = document.getElementById('detail-export-route');
+                const detailExportTradeType = document.getElementById('detail-export-trade-type');
+                const detailExportCompanyCode = document.getElementById('detail-export-company-code');
+                const detailExportCompanyName = document.getElementById('detail-export-company-name');
+                const detailExportAgentCode = document.getElementById('detail-export-agent-code');
+                const detailExportAgentName = document.getElementById('detail-export-agent-name');
+                const detailExportAgentPhone = document.getElementById('detail-export-agent-phone');
+                const detailExportDraftBefore = document.getElementById('detail-export-draft-before');
+                const detailExportDraftAfter = document.getElementById('detail-export-draft-after');
+                const detailAnchorTime = document.getElementById('detail-anchor-time');
+                const detailProcessStatus = document.getElementById('detail-process-status');
+                const detailBerthCompleteTime = document.getElementById('detail-berth-complete-time');
+                const detailCancelReason = document.getElementById('detail-cancel-reason');
+                const detailProcessDesc = document.getElementById('detail-process-desc');
+                const detailWechatDeclareTime = document.getElementById('detail-wechat-declare-time');
+                const detailOperationReadyTime = document.getElementById('detail-operation-ready-time');
+                const detailBerthStartPosition = document.getElementById('detail-berth-start-position');
+                const detailBerthEndPosition = document.getElementById('detail-berth-end-position');
+                const detailIsOuterSide = document.getElementById('detail-is-outer-side');
+                const detailActualDirection = document.getElementById('detail-actual-direction');
+                const detailDraft = document.getElementById('detail-draft');
+                const detailCancelDesc = document.getElementById('detail-cancel-desc');
+                const detailCancelReasonType = document.getElementById('detail-cancel-reason-type');
+                const detailStartTime = document.getElementById('detail-start-time');
+                const detailEndTime = document.getElementById('detail-end-time');
+                const detailOperationDuration = document.getElementById('detail-operation-duration');
+                const detailRemark = document.getElementById('detail-remark');
+
+                // 显示详情的函数
+                function showDetail(row) {
+                    const cells = row.querySelectorAll('td');
+                    const shipName = cells[0].textContent;
+                    const imo = cells[1].textContent;
+                    const berth = cells[2].textContent;
+                    const arrival = cells[3].textContent;
+                    const departure = cells[4].textContent;
+                    const importVoyage = cells[5].textContent;
+                    const exportVoyage = cells[6].textContent;
+                    const status = cells[7].textContent;
+                    const declareTime = cells[8].textContent;
+
+                    const berthParts = berth.split('-');
+                    const terminal = berthParts[0] || '';
+                    const berthNum = berthParts[1] || '';
+
+                    detailPlaceholder.style.display = 'none';
+                    detailContent.style.display = 'block';
+
+                    detailShipName.textContent = shipName;
+                    detailImo.textContent = imo;
+                    detailDeclareTime.textContent = '2026/1/23 9:15';
+                    detailDeclarantUnitCode.textContent = 'TCG001';
+                    detailDeclarantCode.textContent = 'OPR0089';
+                    detailEnglishName.textContent = 'MV SUZHOU HAI YUN';
+                    detailChineseName.textContent = '苏州海运号';
+                    detailImoFull.textContent = 'IMO9876543';
+                    detailMmsi.textContent = '412345678';
+                    detailCallSign.textContent = 'BLA8976';
+                    detailPortArea.textContent = '太仓港';
+                    detailTerminal.textContent = 'T1';
+                    detailBerth.textContent = '1';
+                    detailArrivalYangtze.textContent = '2026/1/23 6:00';
+                    detailArrival.textContent = '2026/1/23 9:15';
+                    detailDeparture.textContent = '2026/1/23 18:00';
+                    detailDeclarationType.textContent = '正常报港';
+                    detailShipPosition.textContent = '长江口';
+                    detailIsDiversion.textContent = '否';
+                    detailMotherShipSchedule.textContent = '-';
+                    detailLoadingPortCode.textContent = 'CNSHA';
+                    detailDestinationPortCode.textContent = 'SGSIN';
+                    detailLastPortCode.textContent = 'KRPUS';
+                    detailNextPortCode.textContent = 'SGSIN';
+                    detailShipPhone.textContent = '13800138000';
+                    detailOperationType.textContent = '装卸作业';
+                    detailImportVoyage.textContent = '001E';
+                    detailImportRoute.textContent = '亚洲航线';
+                    detailImportTradeType.textContent = '外贸';
+                    detailImportCompanyCode.textContent = 'COSCO';
+                    detailImportCompanyName.textContent = '中远海运';
+                    detailImportAgentCode.textContent = 'AGT001';
+                    detailImportAgentName.textContent = '中远代理';
+                    detailImportAgentPhone.textContent = '021-12345678';
+                    detailImportDraftBefore.textContent = '12.5';
+                    detailImportDraftAfter.textContent = '11.8';
+                    detailExportVoyage.textContent = '002W';
+                    detailExportRoute.textContent = '欧洲航线';
+                    detailExportTradeType.textContent = '外贸';
+                    detailExportCompanyCode.textContent = 'COSCO';
+                    detailExportCompanyName.textContent = '中远海运';
+                    detailExportAgentCode.textContent = 'AGT001';
+                    detailExportAgentName.textContent = '中远代理';
+                    detailExportAgentPhone.textContent = '021-12345678';
+                    detailExportDraftBefore.textContent = '11.8';
+                    detailExportDraftAfter.textContent = '13.2';
+                    
+                    if (status === '否') {
+                        detailStatus.innerHTML = '<span style="padding: 4px 10px; border-radius: 12px; background: rgba(5, 150, 105, 0.3); color: #00ffae; font-size: 12px;">否</span>';
+                        detailAnchorTime.textContent = '2026/1/23 6:00';
+                        detailProcessStatus.textContent = '否';
+                        detailBerthCompleteTime.textContent = '2026/1/23 9:15';
+                        detailCancelReason.textContent = '-';
+                        detailProcessDesc.textContent = '否靠泊';
+                        detailWechatDeclareTime.textContent = '2026/1/23 9:10';
+                        detailOperationReadyTime.textContent = '2026/1/23 9:15';
+                        detailBerthStartPosition.textContent = '0';
+                        detailBerthEndPosition.textContent = '200';
+                        detailIsOuterSide.textContent = '否';
+                        detailActualDirection.textContent = '顶流';
+                        detailDraft.textContent = '12.5';
+                        detailCancelDesc.textContent = '-';
+                        detailCancelReasonType.textContent = '-';
+                        detailStartTime.textContent = '2026/1/23 10:00';
+                        detailEndTime.textContent = '2026/1/23 17:30';
+                        detailOperationDuration.textContent = '7.5小时';
+                    } else if (status === '等待中') {
+                        detailStatus.innerHTML = '<span style="padding: 4px 10px; border-radius: 12px; background: rgba(245, 158, 11, 0.3); color: #fbbf24; font-size: 12px;">等待中</span>';
+                        detailAnchorTime.textContent = '2026/1/23 6:00';
+                        detailProcessStatus.textContent = '等待中';
+                        detailBerthCompleteTime.textContent = '-';
+                        detailCancelReason.textContent = '-';
+                        detailProcessDesc.textContent = '等待泊位安排';
+                        detailWechatDeclareTime.textContent = '2026/1/23 9:10';
+                        detailOperationReadyTime.textContent = '-';
+                        detailBerthStartPosition.textContent = '-';
+                        detailBerthEndPosition.textContent = '-';
+                        detailIsOuterSide.textContent = '-';
+                        detailActualDirection.textContent = '-';
+                        detailDraft.textContent = '12.5';
+                        detailCancelDesc.textContent = '-';
+                        detailCancelReasonType.textContent = '-';
+                        detailStartTime.textContent = '-';
+                        detailEndTime.textContent = '-';
+                        detailOperationDuration.textContent = '-';
+                    }
+                    
+                    detailRemark.textContent = '正常作业';
+                }
+
+                // 给每一行添加点击事件
+                tableRows.forEach(row => {
+                    row.style.cursor = 'pointer';
+                    row.addEventListener('click', function() {
+                        // 移除所有行的选中样式
+                        tableRows.forEach(r => {
+                            r.style.background = '';
+                        });
+                        
+                        // 添加当前行的选中样式
+                        this.style.background = 'rgba(79, 142, 255, 0.2)';
+                        
+                        // 显示详情
+                        showDetail(this);
+                    });
+                });
+
+                // 默认选中第一行并显示详情
+                if (tableRows.length > 0) {
+                    tableRows[0].style.background = 'rgba(79, 142, 255, 0.2)';
+                    showDetail(tableRows[0]);
+                }
+            }
 
             // 船舶信息管理功能
             function initVesselList() {
@@ -5584,7 +6339,7 @@
                 drawInOutChart();
             }
 
-            // 码头信息管理功能 - 提前定义，确保在菜单切换时可用
+            // 码头信息功能 - 提前定义，确保在菜单切换时可用
             function initPortManagement() {
                 // 绘制码头图表
                 drawBerthUsageChart();
@@ -7508,17 +8263,12 @@
                     
                     let status = '';
                     if (berthingDate <= now && departureDate > now) {
-                        status = 'status-berthing';
                         berthingCount++;
                     } else if (departureDate <= now) {
-                        status = 'status-departed';
                         departureCount++;
-                    } else {
-                        status = 'status-pending';
                     }
                     
                     const row = document.createElement('tr');
-                    row.className = status;
                     row.innerHTML = `
                         <td>${schedule.shipName}</td>
                         <td>${schedule.berthingTime}</td>
@@ -7536,11 +8286,10 @@
             // 码头信息页面-初始化靠离泊计划列表
             function initPortScheduleList() {
                 // 修复表格ID
-                const scheduleTableBody = document.getElementById('schedule-table-body');
+                const scheduleTableBody = document.getElementById('schedule-table-body-berth');
                 scheduleTableBody.innerHTML = '';
                 
                 const shipNames = ['港口之星', '码头先锋', '泊位一号', '港湾号', '临港明珠', '码头勇士', '泊位先锋', '港口之光', '码头号', '港湾先锋'];
-                const agentNames = ['港口管理', '码头运营', '泊位服务', '港湾物流', '临港代理', '码头服务', '泊位管理'];
                 
                 const schedules = [];
                 
@@ -7559,20 +8308,31 @@
                     const berthingTime = `12-${arrivalDay.toString().padStart(2, '0')} ${arrivalHour.toString().padStart(2, '0')}:${arrivalMinute.toString().padStart(2, '0')}`;
                     const departureTime = `12-${departureDay.toString().padStart(2, '0')} ${departureHour.toString().padStart(2, '0')}:${departureMinute.toString().padStart(2, '0')}`;
                     
-                    const berth = (1 + Math.floor(Math.random() * 18)) + '#';
-                    const agentName = agentNames[Math.floor(Math.random() * agentNames.length)];
+                    const terminal = ['一期码头', '二期码头', '三期码头'][Math.floor(Math.random() * 3)];
+                    const berthNumber = 1 + Math.floor(Math.random() * 10);
+                    const terminalBerth = `${terminal}-${berthNumber}泊位`;
                     
-                    // 添加9个字段的数据
+                    // 计算计划开工和完工时间
+                    const startTimeHour = arrivalHour + 1;
+                    const startTimeMinute = arrivalMinute;
+                    const endTimeHour = departureHour - 1;
+                    const endTimeMinute = departureMinute;
+                    
+                    const startTime = `12-${arrivalDay.toString().padStart(2, '0')} ${startTimeHour.toString().padStart(2, '0')}:${startTimeMinute.toString().padStart(2, '0')}`;
+                    const endTime = `12-${departureDay.toString().padStart(2, '0')} ${endTimeHour.toString().padStart(2, '0')}:${endTimeMinute.toString().padStart(2, '0')}`;
+                    
+                    // 添加10个字段的数据，按照表头顺序
                     schedules.push({
-                        imo: 'IMO' + Math.floor(1000000 + Math.random() * 9000000),
                         shipName: shipNames[i % shipNames.length] + `-${i + 1}`,
+                        imo: 'IMO' + Math.floor(1000000 + Math.random() * 9000000),
                         inVoyage: 'IN' + (1000 + i).toString(),
                         outVoyage: 'OUT' + (2000 + i).toString(),
                         berthingTime,
+                        startTime,
+                        endTime,
                         departureTime,
-                        berth,
-                        arrivalTime: berthingTime,
-                        agentName
+                        terminalBerth,
+                        loadingFlag: ['不装卸','仅装货', '仅卸货', '装卸货'][Math.floor(Math.random() * 3)]
                     });
                 }
                 
@@ -7588,32 +8348,28 @@
                 let departureCount = 0;
                 
                 schedules.forEach(schedule => {
-                    const arrivalDate = new Date('2025-12-' + schedule.arrivalTime.split(' ')[0].split('-')[1] + ' ' + schedule.arrivalTime.split(' ')[1]);
+                    const arrivalDate = new Date('2025-12-' + schedule.berthingTime.split(' ')[0].split('-')[1] + ' ' + schedule.berthingTime.split(' ')[1]);
                     const departureDate = new Date('2025-12-' + schedule.departureTime.split(' ')[0].split('-')[1] + ' ' + schedule.departureTime.split(' ')[1]);
                     
                     let status = '';
                     if (arrivalDate <= now && departureDate > now) {
-                        status = 'status-berthing';
                         berthingCount++;
                     } else if (departureDate <= now) {
-                        status = 'status-departed';
                         departureCount++;
-                    } else {
-                        status = 'status-pending';
                     }
                     
                     const row = document.createElement('tr');
-                    row.className = status;
                     row.innerHTML = `
-                        <td>${schedule.imo}</td>
                         <td>${schedule.shipName}</td>
+                        <td>${schedule.imo}</td>
                         <td>${schedule.inVoyage}</td>
                         <td>${schedule.outVoyage}</td>
                         <td>${schedule.berthingTime}</td>
+                        <td>${schedule.startTime}</td>
+                        <td>${schedule.endTime}</td>
                         <td>${schedule.departureTime}</td>
-                        <td>${schedule.berth}</td>
-                        <td>${schedule.arrivalTime}</td>
-                        <td>${schedule.agentName}</td>
+                        <td>${schedule.terminalBerth}</td>
+                        <td>${schedule.loadingFlag}</td>
                     `;
                     scheduleTableBody.appendChild(row);
                 });
