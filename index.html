@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>基本港生产信息管理系统</title>
+    <title>基本港生产管理信息系统</title>
     <!-- 百度地图API -->
     <script type="text/javascript" src="https://api.map.baidu.com/api?v=2.0&ak=nmPjPo63VZinHpnCMcrH2ppx5rs6Mk9X"></script>
     <style>
@@ -135,6 +135,7 @@
             backdrop-filter: blur(12px);
             position: relative;
             overflow: hidden;
+            height: 100vh;
         }
 
         .content::before {
@@ -182,7 +183,7 @@
 
         .content-inner {
             padding: 20px;
-            height: 100%;
+            height: 100vh;
             position: relative;
             z-index: 1;
             overflow: hidden;
@@ -320,7 +321,7 @@
             border-radius: 0;
             padding: 0;
             box-shadow: none;
-            height: calc(100% - 120px);
+            height: 90vh;
             margin: 0;
             overflow: hidden;
         }
@@ -330,7 +331,7 @@
             display: flex;
             flex-direction: column;
             gap: 15px;
-            height: 100%;
+            height: 95%;
             margin: 0;
             position: relative;
         }
@@ -357,13 +358,16 @@
             height: 100%;
         }
 
-        /* 总览仪表盘-靠离泊计划&等泊船清单 */
-        .combined-schedule-container {
+        /* 总览仪表盘-等泊船清单样式 */
+        .waiting-list-container {
+            background: rgba(16, 24, 39, 0.85);
+            border-radius: 12px;
+            padding: 20px;
             position: absolute;
             top: 20px;
             right: 20px;
             width: 360px;
-            max-height: 600px;
+            max-height: 400px;
             background: rgba(16, 24, 39, 0.85);
             backdrop-filter: blur(12px);
             border-radius: 16px;
@@ -374,58 +378,10 @@
             border: 1px solid rgba(79, 142, 255, 0.3);
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(79, 142, 255, 0.1);
             z-index: 100;
+            margin-bottom: 20px;
         }
 
-        .schedule-list {
-            position: relative;
-            width: 100%;
-            max-height: 100%;
-            background: transparent;
-            border-radius: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            border: none;
-            box-shadow: none;
-            z-index: 100;
-            margin-top: 20px;
-        }
-        
-        .waiting-list {
-            position: relative;
-            width: 100%;
-            max-height: 100%;
-            background: transparent;
-            border-radius: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            border: none;
-            box-shadow: none;
-            z-index: 100;
-            margin-bottom: 15px;
-            margin-top: 20px;
-        }
-
-        .waiting-list {
-            position: relative;
-            width: 100%;
-            max-height: 100%;
-            background: transparent;
-            border-radius: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            border: none;
-            box-shadow: none;
-            z-index: 100;
-            margin-bottom: 15px;
-        }
-
-        .waiting-header {
+        .waiting-list-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -435,7 +391,7 @@
             flex-shrink: 0;
         }
 
-        .waiting-header h3 {
+        .waiting-list-header h3 {
             margin: 0;
             color: #e6edf3;
             font-size: 16px;
@@ -443,12 +399,12 @@
             text-shadow: 0 0 10px rgba(79, 142, 255, 0.5);
         }
 
-        .waiting-stats {
+        .waiting-list-stats {
             display: flex;
             gap: 15px;
         }
 
-        .waiting-stat-item {
+        .waiting-list-stat-item {
             display: flex;
             align-items: center;
             gap: 5px;
@@ -456,37 +412,37 @@
             color: #94a3b8;
         }
 
-        .waiting-stat-number {
+        .waiting-list-stat-number {
             font-size: 18px;
             font-weight: bold;
             color: #4f8eff;
             text-shadow: 0 0 10px rgba(79, 142, 255, 0.5);
         }
 
-        .waiting-stat-label {
+        .waiting-list-stat-label {
             font-size: 12px;
             color: #94a3b8;
         }
 
-        .waiting-table-container {
+        .waiting-list-table-container {
             flex: 1;
             overflow-y: auto;
         }
 
-        .waiting-table {
+        .waiting-list-table {
             width: 100%;
             border-collapse: collapse;
             font-size: 12px;
         }
 
-        .waiting-table thead {
+        .waiting-list-table thead {
             position: sticky;
             top: 0;
             background: rgba(30, 41, 59, 0.8);
             z-index: 1;
         }
 
-        .waiting-table th {
+        .waiting-list-table th {
             background: linear-gradient(135deg, #4f8eff, #00d4ff);
             color: white;
             padding: 8px 6px;
@@ -496,40 +452,81 @@
             text-shadow: 0 0 10px rgba(79, 142, 255, 0.5);
         }
 
-        .waiting-table td {
+        .waiting-list-table td {
             padding: 8px 6px;
             border-bottom: 1px solid rgba(79, 142, 255, 0.2);
             color: #e6edf3;
             background: rgba(30, 41, 59, 0.3);
         }
 
-        .waiting-table tbody tr:hover {
+        .waiting-list-table tbody tr:hover {
             background-color: rgba(79, 142, 255, 0.2);
         }
 
-        .waiting-table tbody tr:nth-child(even) {
+        .waiting-list-table tbody tr:nth-child(even) {
             background-color: rgba(30, 41, 59, 0.5);
         }
 
-        .waiting-table-container::-webkit-scrollbar {
+        .waiting-list-table-container::-webkit-scrollbar {
             width: 6px;
         }
 
-        .waiting-table-container::-webkit-scrollbar-track {
+        .waiting-list-table-container::-webkit-scrollbar-track {
             background: rgba(30, 41, 59, 0.3);
             border-radius: 3px;
         }
 
-        .waiting-table-container::-webkit-scrollbar-thumb {
+        .waiting-list-table-container::-webkit-scrollbar-thumb {
             background: rgba(79, 142, 255, 0.5);
             border-radius: 3px;
         }
 
-        .waiting-table-container::-webkit-scrollbar-thumb:hover {
+        .waiting-list-table-container::-webkit-scrollbar-thumb:hover {
             background: rgba(79, 142, 255, 0.7);
         }
 
-        .schedule-header {
+        /* 总览仪表盘-地图容器样式 */
+        .map-container {
+            flex: 1;
+            height: 100%;
+            min-height: 0;
+            max-height: 100%;
+            position: relative;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid rgba(0, 102, 204, 0.1);
+            background: white;
+        }
+
+        .map-container #baidu-map {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* 总览仪表盘-靠离泊计划样式 */
+        .schedule-list-container {
+            background: rgba(16, 24, 39, 0.85);
+            border-radius: 12px;
+            padding: 20px;
+            position: absolute;
+            top: 430px;
+            right: 20px;
+            width: 360px;
+            max-height: 400px;
+            background: rgba(16, 24, 39, 0.85);
+            backdrop-filter: blur(12px);
+            border-radius: 16px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            border: 1px solid rgba(79, 142, 255, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(79, 142, 255, 0.1);
+            z-index: 100;
+            margin-bottom: 20px;
+        }
+
+        .schedule-list-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -539,7 +536,7 @@
             flex-shrink: 0;
         }
 
-        .schedule-header h3 {
+        .schedule-list-header h3 {
             margin: 0;
             color: #e6edf3;
             font-size: 16px;
@@ -547,12 +544,12 @@
             text-shadow: 0 0 10px rgba(79, 142, 255, 0.5);
         }
 
-        .schedule-stats {
+        .schedule-list-stats {
             display: flex;
             gap: 15px;
         }
 
-        .schedule-stat-item {
+        .schedule-list-stat-item {
             display: flex;
             align-items: center;
             gap: 5px;
@@ -560,37 +557,37 @@
             color: #94a3b8;
         }
 
-        .schedule-stat-number {
+        .schedule-list-stat-number {
             font-size: 18px;
             font-weight: bold;
             color: #4f8eff;
             text-shadow: 0 0 10px rgba(79, 142, 255, 0.5);
         }
 
-        .schedule-stat-label {
+        .schedule-list-stat-label {
             font-size: 12px;
             color: #94a3b8;
         }
 
-        .schedule-table-container {
+        .schedule-list-table-container {
             flex: 1;
             overflow-y: auto;
         }
 
-        .schedule-table {
+        .schedule-list-table {
             width: 100%;
             border-collapse: collapse;
             font-size: 12px;
         }
 
-        .schedule-table thead {
+        .schedule-list-table thead {
             position: sticky;
             top: 0;
             background: rgba(30, 41, 59, 0.8);
             z-index: 1;
         }
 
-        .schedule-table th {
+        .schedule-list-table th {
             background: linear-gradient(135deg, #4f8eff, #00d4ff);
             color: white;
             padding: 8px 6px;
@@ -600,22 +597,22 @@
             text-shadow: 0 0 10px rgba(79, 142, 255, 0.5);
         }
 
-        .schedule-table td {
+        .schedule-list-table td {
             padding: 8px 6px;
             border-bottom: 1px solid rgba(79, 142, 255, 0.2);
             color: #e6edf3;
             background: rgba(30, 41, 59, 0.3);
         }
 
-        .schedule-table tbody tr:hover {
+        .schedule-list-table tbody tr:hover {
             background-color: rgba(79, 142, 255, 0.2);
         }
 
-        .schedule-table tbody tr:nth-child(even) {
+        .schedule-list-table tbody tr:nth-child(even) {
             background-color: rgba(30, 41, 59, 0.5);
         }
 
-        .schedule-legend {
+        .schedule-list-legend {
             display: flex;
             gap: 15px;
             padding: 10px 0;
@@ -624,7 +621,7 @@
             flex-wrap: wrap;
         }
 
-        .legend-item {
+        .schedule-list-legend-item {
             display: flex;
             align-items: center;
             gap: 6px;
@@ -632,42 +629,42 @@
             color: #666;
         }
 
-        .legend-color {
+        .schedule-list-legend-color {
             width: 12px;
             height: 12px;
             border-radius: 2px;
         }
 
-        .legend-berthing {
+        .schedule-list-legend-berthing {
             background-color: rgba(0, 200, 83, 0.3);
             border-left: 3px solid #00c853;
         }
 
-        .legend-departed {
+        .schedule-list-legend-departed {
             background-color: rgba(158, 158, 158, 0.3);
             border-left: 3px solid #9e9e9e;
         }
 
-        .legend-pending {
+        .schedule-list-legend-pending {
             background-color: rgba(255, 193, 7, 0.3);
             border-left: 3px solid #ffc107;
         }
 
-        .schedule-table-container::-webkit-scrollbar {
+        .schedule-list-table-container::-webkit-scrollbar {
             width: 6px;
         }
 
-        .schedule-table-container::-webkit-scrollbar-track {
+        .schedule-list-table-container::-webkit-scrollbar-track {
             background: rgba(30, 41, 59, 0.3);
             border-radius: 3px;
         }
 
-        .schedule-table-container::-webkit-scrollbar-thumb {
+        .schedule-list-table-container::-webkit-scrollbar-thumb {
             background: rgba(79, 142, 255, 0.5);
             border-radius: 3px;
         }
 
-        .schedule-table-container::-webkit-scrollbar-thumb:hover {
+        .schedule-list-table-container::-webkit-scrollbar-thumb:hover {
             background: rgba(79, 142, 255, 0.7);
         }
 
@@ -676,7 +673,7 @@
             position: absolute;
             top: 20px;
             left: 20px;
-            width: 950px;
+            width: 50vh;
             max-height: 400px;
             background: rgba(16, 24, 39, 0.85);
             backdrop-filter: blur(12px);
@@ -1068,19 +1065,6 @@
             color: #ff6666;
             text-shadow: 0 0 5px rgba(255, 77, 77, 0.5);
         }
-
-        /* 总览仪表盘-地图容器样式 */
-        .map-container {
-            flex: 1;
-            height: 100%;
-            min-height: 0;
-            max-height: 100%;
-            position: relative;
-            border-radius: 8px;
-            overflow: hidden;
-            border: 1px solid rgba(0, 102, 204, 0.1);
-            background: white;
-        }
         
         /* 船舶列表状态样式 */
         .status-sailing {
@@ -1110,19 +1094,14 @@
             display: inline-block;
         }
 
-        .map-container #baidu-map {
-            width: 100%;
-            height: 100%;
-        }
-
         /* 总览仪表盘-泊位清单容器 */
         .berth-container {
             position: absolute;
-            bottom: 20px;
-            left: 50%;
+            top: 430px;
+            right: 220px;
             transform: translateX(-50%);
-            width: calc(100% - 40px);
-            max-height: 200px;
+            width: 360px;
+            max-height: 400px;
             background: rgba(16, 24, 39, 0.85);
             backdrop-filter: blur(12px);
             padding: 20px;
@@ -1203,6 +1182,7 @@
         .berth-stats {
             display: flex;
             gap: 20px;
+            flex-wrap: wrap;
         }
 
         .berth-stat-item {
@@ -1228,23 +1208,29 @@
         .berth-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            grid-auto-flow: column;
-            gap: 15px;
-            overflow-x: auto;
-            overflow-y: hidden;
+            gap: 10px;
             flex: 1;
             padding-bottom: 5px;
             min-height: 120px;
-            /* 隐藏滚动条但保留滚动功能 */
-            -ms-overflow-style: none;
-            scrollbar-width: none;
+            overflow-y: auto;
         }
         
-        /* Chrome, Safari 和 Opera */
+        /* 码头泊位清单滚动条样式 */
         .berth-grid::-webkit-scrollbar {
-            display: none;
+            width: 6px;
         }
-
+        .berth-grid::-webkit-scrollbar-track {
+            background: rgba(30, 41, 59, 0.3);
+            border-radius: 4px;
+        }
+        .berth-grid::-webkit-scrollbar-thumb {
+            background: rgba(79, 142, 255, 0.5);
+            border-radius: 4px;
+        }
+        .berth-grid::-webkit-scrollbar-thumb:hover {
+            background: rgba(79, 142, 255, 0.7);
+        }
+        
         .berth-item {
             background: rgba(30, 41, 59, 0.5);
             border: 2px solid rgba(79, 142, 255, 0.3);
@@ -1346,8 +1332,8 @@
             position: absolute;
             top: 430px;
             left: 20px;
-            width: 950px;
-            max-height: 500px;
+            width: 50vh;
+            max-height: 400px;
             background: rgba(16, 24, 39, 0.85);
             backdrop-filter: blur(12px);
             border-radius: 16px;
@@ -1364,7 +1350,7 @@
         .cargo-layout {
             display: flex;
             gap: 20px;
-            height: 700px;
+            height: 60vh;
             overflow: hidden;
         }
         
@@ -1378,6 +1364,7 @@
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(79, 142, 255, 0.1);
             display: flex;
             flex-direction: column;
+            height: 95%;
         }
         
         .cargo-detail-container {
@@ -1390,7 +1377,7 @@
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(79, 142, 255, 0.1);
             display: flex;
             flex-direction: column;
-            height: 700px;
+            height: 95%;
         }
         
         /* 总览仪表盘-货物详情头部样式 */
@@ -1774,7 +1761,7 @@
 
         /* 滚动条样式美化 */
         #cargo-cards-container::-webkit-scrollbar {
-            width: 8px;
+            width: 6px;
         }
 
         #cargo-cards-container::-webkit-scrollbar-track {
@@ -1895,7 +1882,7 @@
             border-radius: 12px;
             width: 900px;
             max-width: 90%;
-            max-height: 80vh;
+            max-height: 100vh;
             display: flex;
             flex-direction: column;
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
@@ -2044,7 +2031,7 @@
             border-radius: 12px;
             width: 95%;
             max-width: 1400px;
-            max-height: 80vh;
+            max-height: 100vh;
             display: flex;
             flex-direction: column;
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
@@ -2300,33 +2287,15 @@
             filter: blur(0.5px);
         }
 
-        /* 渐变模糊遮罩 */
-        .map-container::before {
-            content: '';
-            position: absolute;
-            top: -50px;
-            left: -50px;
-            right: -50px;
-            bottom: -50px;
-            background: linear-gradient(135deg, 
-                rgba(255, 255, 255, 0.1) 0%, 
-                rgba(255, 255, 255, 0.05) 25%, 
-                rgba(255, 255, 255, 0) 50%, 
-                rgba(255, 255, 255, 0.05) 75%, 
-                rgba(255, 255, 255, 0.1) 100%);
-            pointer-events: none;
-            z-index: 1;
-        }
-
         /* 默认内容样式 */
         .welcome-section {
             text-align: center;
             padding: 40px 20px;
         }
         
-        /* 仪表盘内容样式 */
-        #dashboard-content {
-            height: 100%;
+        /* 内容区域样式 */
+        #dashboard-content, #cargo-content, #vessel-content, #port-management-content, #video-content {
+            height: 90vh;
             display: flex;
             flex-direction: column;
         }
@@ -2354,8 +2323,8 @@
         /* 视频监控组件样式 */
         .video-monitor {
             position: absolute;
-            top: 620px;
-            right: 20px;
+            top: 20px;
+            right: 400px;
             width: 360px;
             background: rgba(16, 24, 39, 0.85);
             backdrop-filter: blur(12px);
@@ -2677,7 +2646,6 @@
             display: flex;
             flex-direction: column;
             margin-bottom: 15px;
-            padding-bottom: 10px;
             border-bottom: 2px solid rgba(79, 142, 255, 0.2);
         }
 
@@ -2687,6 +2655,7 @@
             align-items: center;
             flex-wrap: wrap;
             gap: 15px;
+            margin-bottom: 20px;
         }
 
         .section-header-top h2 {
@@ -3015,7 +2984,6 @@
         }
 
         .table-container {
-            flex: 1;
             overflow: auto;
             background: rgba(15, 23, 42, 0.8);
             border-radius: 8px;
@@ -3040,6 +3008,75 @@
         
         .table-container::-webkit-scrollbar-thumb:hover {
             background: rgba(79, 142, 255, 0.8);
+        }
+
+        /* 新的表格容器样式 */
+        .table-container-new {
+            overflow: auto;
+            background: rgba(15, 23, 42, 0.8);
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            height: 55vh;
+            flex: 0 0 65%;
+        }
+        
+        /* 新的表格容器滚动条样式 */
+        .table-container-new::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        
+        .table-container-new::-webkit-scrollbar-track {
+            background: rgba(79, 142, 255, 0.1);
+            border-radius: 4px;
+        }
+        
+        .table-container-new::-webkit-scrollbar-thumb {
+            background: rgba(79, 142, 255, 0.5);
+            border-radius: 4px;
+        }
+        
+        .table-container-new::-webkit-scrollbar-thumb:hover {
+            background: rgba(79, 142, 255, 0.8);
+        }
+
+        /* 新的船期表格样式 */
+        .schedule-table-new {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+        }
+
+        .schedule-table-new thead {
+            position: sticky;
+            top: 0;
+            background: rgba(30, 41, 59, 0.8);
+            z-index: 1;
+        }
+
+        .schedule-table-new th {
+            background: linear-gradient(135deg, #4f8eff, #00d4ff);
+            color: white;
+            padding: 8px 6px;
+            text-align: left;
+            font-weight: bold;
+            white-space: nowrap;
+            text-shadow: 0 0 10px rgba(79, 142, 255, 0.5);
+        }
+
+        .schedule-table-new td {
+            padding: 8px 6px;
+            border-bottom: 1px solid rgba(79, 142, 255, 0.2);
+            color: #e6edf3;
+            background: rgba(30, 41, 59, 0.3);
+        }
+
+        .schedule-table-new tbody tr:hover {
+            background-color: rgba(79, 142, 255, 0.2);
+        }
+
+        .schedule-table-new tbody tr:nth-child(even) {
+            background-color: rgba(30, 41, 59, 0.5);
         }
 
         .data-table {
@@ -3249,7 +3286,7 @@
         }
         
         #detail-content::-webkit-scrollbar {
-            width: 6px;
+            width: 8px;
         }
         
         #detail-content::-webkit-scrollbar-track {
@@ -3448,7 +3485,7 @@
         <div class="sidebar">
             <div class="logo-container">
                 <img src="logo.png" alt="系统Logo">
-                <div class="system-title">基本港生产信息管理系统</div>
+                <div class="system-title">基本港生产管理信息系统</div>
             </div>
             <div class="menu">
                 <div class="menu-item active" data-content="dashboard">
@@ -3555,7 +3592,8 @@
                                         </div>
                                     </div>
                                     <div class="ship-list-content">
-                                        <!-- 左侧：统计数据和趋势图 -->
+                                        
+                                        <!-- 左侧：统计数据和趋势图 
                                         <div class="ship-list-left">
                                             <div class="ship-stats">
                                                 <div class="ship-stat-item">
@@ -3574,13 +3612,14 @@
                                                     <div class="ship-stat-number" id="ship-ready-less-50">0</div>
                                                     <div class="ship-stat-label">Ready&lt;50%</div>
                                                 </div>
-                                            </div>
-                                            <!-- 7天趋势图 -->
+                                            </div> -->
+                                            <!-- 7天趋势图 
                                             <div class="ship-trend-chart">
                                                 <h4 style="font-size: 14px; color: #94a3b8;">7天内报港船舶数量变化</h4>
                                                 <canvas id="ship-trend-canvas" width="100%" height="200"></canvas>
                                             </div>
-                                        </div>
+                                        </div> -->
+                                        
                                         <!-- 右侧：船舶卡片 -->
                                         <div class="ship-list-right">
                                             <div id="ship-cards-container">
@@ -3590,26 +3629,25 @@
                                     </div>
                                 </div>
                                     <!-- 总览仪表盘-靠离泊计划和等泊船清单 -->
-                                    <div class="combined-schedule-container">
+                                    <div class="waiting-list-container">
                                         <!-- 总览仪表盘-等泊船清单 -->
                                         <div class="waiting-list">
-                                            <div class="waiting-header">
+                                            <div class="waiting-list-header">
                                                 <h3>等泊船清单</h3>
-                                                <div class="waiting-stats">
-                                                    <div class="waiting-stat-item">
-                                                        <span class="waiting-stat-number" id="waiting-total">0</span>
-                                                        <span class="waiting-stat-label">船舶数</span>
+                                                <div class="waiting-list-stats">
+                                                    <div class="waiting-list-stat-item">
+                                                        <span class="waiting-list-stat-number" id="waiting-total">0</span>
+                                                        <span class="waiting-list-stat-label">船舶数</span>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="waiting-table-container">
-                                                <table class="waiting-table">
+                                            <div class="waiting-list-table-container">
+                                                <table class="waiting-list-table">
                                                     <thead>
                                                         <tr>
                                                             <th>船名</th>
-                                                            <th>船型</th>
-                                                            <th>吨位</th>
-                                                            <th>锚地</th>
+                                                            <th>预靠码头-泊位</th>
+                                                            <th>预靠港时间</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody id="waiting-table-body">
@@ -3618,30 +3656,31 @@
                                                 </table>
                                             </div>
                                         </div>
+                                    </div>
+                                    <div class="schedule-list-container">
                                         <!-- 总览仪表盘-靠离泊计划 -->
                                         <div class="schedule-list">
-                                            <div class="schedule-header">
-                                                <h3>靠离泊计划</h3>
-                                                <div class="schedule-stats">
-                                                    <div class="schedule-stat-item">
-                                                        <span class="schedule-stat-number" id="schedule-berthing-port">0</span>
-                                                        <span class="schedule-stat-label">靠泊</span>
+                                            <div class="schedule-list-header">
+                                                <h3>24H靠离泊计划</h3>
+                                                <div class="schedule-list-stats">
+                                                    <div class="schedule-list-stat-item">
+                                                        <span class="schedule-list-stat-number" id="schedule-berthing-port">0</span>
+                                                        <span class="schedule-list-stat-label">靠泊</span>
                                                     </div>
-                                                    <div class="schedule-stat-item">
-                                                        <span class="schedule-stat-number" id="schedule-departure-port">0</span>
-                                                        <span class="schedule-stat-label">离泊</span>
+                                                    <div class="schedule-list-stat-item">
+                                                        <span class="schedule-list-stat-number" id="schedule-departure-port">0</span>
+                                                        <span class="schedule-list-stat-label">离泊</span>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="schedule-table-container">
-                                                <table class="schedule-table">
+                                            <div class="schedule-list-table-container">
+                                                <table class="schedule-list-table">
                                                     <thead>
                                                         <tr>
                                                             <th>船名</th>
                                                             <th>靠泊时间</th>
                                                             <th>离泊时间</th>
-                                                            <th>泊位</th>
-                                                            <th>船代名称</th>
+                                                            <th>码头-泊位</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody id="schedule-table-body-port">
@@ -3649,7 +3688,7 @@
                                                     </tbody>
                                                 </table>
                                             </div>
-                        </div>
+                                        </div>
                                     </div>
                                     <!-- 7日货物状态墙 -->
                                     <div class="cargo-status-wall">
@@ -3660,7 +3699,8 @@
                                             </div>
                                         </div>
                                         <div class="cargo-status-content">
-                                            <!-- 左侧：数据统计 -->
+                                            
+                                            <!-- 左侧：数据统计 
                                             <div class="cargo-status-left">
                                                 <div class="cargo-stats">
                                                     <div class="stat-item">
@@ -3680,11 +3720,14 @@
                                                         <div class="stat-label">已装船</div>
                                                     </div>
                                                 </div>
-                                                <!-- 7日进站、装船数量变化双折线图 -->
+                                                -->
+                                                <!-- 7日进站、装船数量变化双折线图 
                                                 <div class="cargo-trend-chart">
                                                     <canvas id="cargoTrendCanvas" width="100%" height="200"></canvas>
                                                 </div>
                                             </div>
+                                            -->
+
                                             <!-- 右侧：货物卡片 -->
                                             <div class="cargo-status-right">
                                                 <div id="cargo-cards-container">
@@ -3733,39 +3776,29 @@
                             <!-- 数据统计图表区域 -->
                             <div class="stats-charts">
                                 <div class="chart-container">
-                                    <h3>今日库存分析</h3>
+                                    <h3><select style="background: rgba(30, 41, 59, 0.8); border: 1px solid rgba(79, 142, 255, 0.3); border-radius: 4px; color: #e6edf3; padding: 2px 8px; font-size: 14px; margin: 0 5px;">
+                                        <option value="today">今日</option>
+                                        <option value="10">10日</option>
+                                        <option value="15">15日</option>
+                                        <option value="20">20日</option>
+                                        <option value="30">30日</option>
+                                    </select>库存分析</h3>
                                     <canvas id="inventory-chart" class="chart" width="100%" height="300"></canvas>
                                 </div>
-                                <div class="chart-with-stats">
-                                    <div class="chart-container">
-                                        <h3>7日进站、装船数量变化</h3>
-                                        <canvas id="inout-chart" class="chart" width="100%" height="300"></canvas>
-                                    </div>
-                                    <div class="chart-stats">
-                                        <h3>统计数据</h3>
-                                        <div class="stat-cards">
-                                            <div class="stat-card">
-                                                <div class="stat-card-number" id="total-inbound">0</div>
-                                                <div class="stat-card-label">历史总进站量</div>
-                                            </div>
-                                            <div class="stat-card">
-                                                <div class="stat-card-number" id="total-loaded">0</div>
-                                                <div class="stat-card-label">历史总装船量</div>
-                                            </div>
-                                            <div class="stat-card">
-                                                <div class="stat-card-number" id="avg-inbound">0</div>
-                                                <div class="stat-card-label">日均进站量</div>
-                                            </div>
-                                            <div class="stat-card">
-                                                <div class="stat-card-number" id="avg-loaded">0</div>
-                                                <div class="stat-card-label">日均装船量</div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                <div class="chart-container">
+                                    <h3><select style="background: rgba(30, 41, 59, 0.8); border: 1px solid rgba(79, 142, 255, 0.3); border-radius: 4px; color: #e6edf3; padding: 2px 8px; font-size: 14px; margin: 0 5px;">
+                                        <option value="10">10日</option>
+                                        <option value="15">15日</option>
+                                        <option value="20">20日</option>
+                                        <option value="30">30日</option>
+                                    </select>进货数量变化</h3>
+                                    <canvas id="inout-chart" class="chart" width="100%" height="300"></canvas>
                                 </div>
                             </div>
-                            <div class="section-header-top">
-                                <h2>货物信息列表</h2>
+                        </div>
+                        <!-- 左右布局容器 -->
+                        <div class="section-header-top">
+                            <h2>货物信息列表</h2>
                             <div class="filter-container">
                                 <!-- 按船舶名称过滤 -->
                                 <div class="filter-item">
@@ -3789,16 +3822,17 @@
                                         <option value="shipped">已装船</option>
                                     </select>
                                 </div>
-                                
+                                <!-- 操作按钮 -->
+                                <div style="flex: 0 0 auto; align-self: flex-end;">
+                                    <button style="padding: 6px 20px; background: rgba(30, 41, 59, 0.5); border: 1px solid rgba(79, 142, 255, 0.3); border-radius: 4px; color: #e6edf3; font-size: 14px; cursor: pointer; transition: all 0.3s ease;">重置</button>
+                                    <button style="padding: 6px 20px; margin-left: 10px; background: rgba(79, 142, 255, 0.6); border: 1px solid rgba(79, 142, 255, 0.8); border-radius: 4px; color: #ffffff; font-size: 14px; cursor: pointer; transition: all 0.3s ease;">搜索</button>
+                                </div>
                             </div>
                             <div class="button-group">
                                 <button class="btn-primary" onclick="addCargo()">添加货物</button>
                                 <button class="btn-primary" onclick="importFile()">导入文件</button>
                             </div>
-                            </div>
-                            
                         </div>
-                        <!-- 左右布局容器 -->
                         <div class="cargo-layout">
                             <!-- 左侧货物列表 -->
                             <div class="cargo-list-container">
@@ -4033,7 +4067,7 @@
                             </div>
                         </div>
                     </div>
-                    <div id="vessel-content" class="content-section" style="display: none; height: 100%;">
+                    <div id="vessel-content" class="content-section" style="display: none;">
                         <div style="margin-bottom: 20px;">
                             <!-- 船舶数据统计区域 -->
                             <div class="stats-charts">
@@ -4074,10 +4108,26 @@
                                 </div>
                             </div>
                         </div>
-                        <div style="display: flex; height: calc(100% - 120px); gap: 20px;">
+                        <div style="display: flex; height: 70vh; gap: 10px;">
                             
                             <!-- 船舶信息-船舶列表 -->
-                            <div style="width: 60%; height: 100%; background: rgba(16, 24, 39, 0.8); border-radius: 12px; padding: 20px; overflow-y: auto;">
+                            <div id="vessel-list-container" style="width: 60%; height: 70vh; background: rgba(16, 24, 39, 0.8); border-radius: 12px; overflow-y: auto;">
+                                <style>
+                                    #vessel-list-container::-webkit-scrollbar {
+                                        width: 8px;
+                                    }
+                                    #vessel-list-container::-webkit-scrollbar-track {
+                                        background: rgba(30, 41, 59, 0.3);
+                                        border-radius: 3px;
+                                    }
+                                    #vessel-list-container::-webkit-scrollbar-thumb {
+                                        background: rgba(79, 142, 255, 0.5);
+                                        border-radius: 3px;
+                                    }
+                                    #vessel-list-container::-webkit-scrollbar-thumb:hover {
+                                        background: rgba(79, 142, 255, 0.7);
+                                    }
+                                </style>
                                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
                                     <h3 style="color: #e6edf3; font-size: 18px; margin: 0;">船舶列表</h3>
                                     <div class="ship-search">
@@ -4133,8 +4183,8 @@
                     </div>
                             
                             <!-- 船舶信息-百度地图 -->
-                            <div style="width: 40%; height: 100%; display: flex; flex-direction: column; background: rgba(16, 24, 39, 0.8); border-radius: 12px; overflow: hidden;">
-                                <h3 style="margin: 20px 20px 0; color: #e6edf3; font-size: 18px;">地图视图</h3>
+                            <div style="width: 40%; height: 70vh; display: flex; flex-direction: column; background: rgba(16, 24, 39, 0.8); border-radius: 12px; overflow: hidden;">
+                                <h3 style="margin: 5px 0px 20px; color: #e6edf3; font-size: 18px;">地图视图</h3>
                                 <div id="vessel-baidu-map" style="flex: 1; width: 100%; height: calc(100% - 50px); min-height: 400px;"></div>
                             </div>
                         </div>
@@ -4142,7 +4192,7 @@
 
                     <!-- 码头信息页面 -->
                     <div id="port-management-content" class="content-section" style="display: none;">
-                        <div style="background: rgba(16, 24, 39, 0.8); border-radius: 12px; height: 100%;">
+                        <div style="border-radius: 12px; height: 100%;">
                             <!-- 码头信息-数据统计图表区域 -->
                             <div class="stats-charts" style="height: 100px; display: flex; gap: 10px; align-items: center;">
                                 <!-- 泊位使用率趋势 -->
@@ -4189,8 +4239,8 @@
                             <!-- Tab内容区域 -->
                             <div class="tab-content" id="basic-info-content" style="display: block;">
                                 <div style="display: block;">
-                                    <div style="background: rgba(30, 41, 59, 0.5); border-radius: 8px; padding: 20px; margin-top: 20px;">
-                                        <div style="overflow-x: auto;">
+                                    <div style="border-radius: 8px; margin-top: 20px;">
+                                        <div style="overflow-x: hidden;">
                                             <!-- 数据过滤区域 -->
                                             <div style="display: flex; flex-wrap: wrap; gap: 15px; margin-bottom: 20px; padding: 15px; background: rgba(30, 41, 59, 0.5); border-radius: 4px; border: 1px solid rgba(79, 142, 255, 0.3);">
                                                 <div style="flex: 1 1 200px;">
@@ -4219,12 +4269,12 @@
                                                 </div>
                                             </div>
                                             <!-- 左右分栏布局 -->
-                                            <div style="display: flex; gap: 20px; align-items: flex-start;">
+                                            <div style="display: flex; gap: 10px; align-items: flex-start;">
                                                 <!-- 左侧表格区域 -->
-                                                <div style="flex: 0 0 65%; overflow-x: auto; overflow-y: auto; max-height: 600px;">
-                                                    <table class="schedule-table" style="width: 100%; border-collapse: collapse;">
-                                                        <thead style="position: sticky; top: 0; background: rgba(16, 24, 39, 0.95); z-index: 5;">
-                                                            <tr style="border-bottom: 1px solid rgba(79, 142, 255, 0.3);">
+                                                <div class="table-container-new">
+                                                    <table class="schedule-table-new">
+                                                        <thead>
+                                                            <tr>
                                                                 <th>船舶名称</th>
                                                                 <th>IMO号</th>
                                                                 <th>预靠码头-泊位</th>
@@ -4462,7 +4512,7 @@
                                                     </table>
                                                 </div>
                                                 <!-- 右侧详情面板 -->
-                                                <div id="ship-detail-panel" style="flex: 0 0 35%; background: rgba(30, 41, 59, 0.5); border-radius: 8px; padding: 20px; border: 1px solid rgba(79, 142, 255, 0.3); min-height: 400px; max-height: 600px; display: flex; flex-direction: column; overflow: hidden;">
+                                                <div id="ship-detail-panel" style="flex: 0 0 35%; background: rgba(16, 24, 39, 0.85); border-radius: 8px; padding: 20px; border: 1px solid rgba(79, 142, 255, 0.3); height: 55vh; display: flex; flex-direction: column; overflow: hidden;">
                                                     <div id="detail-placeholder" style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; color: #94a3b8; min-height: 300px; flex: 1;">
                                                         <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 16px;">
                                                             <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
@@ -4475,11 +4525,12 @@
                                                         <p style="font-size: 12px; margin-top: 8px;">查看船舶报港数据详情</p>
                                                     </div>
                                                     <div id="detail-content" style="display: none; flex: 1; overflow-y: auto; padding-right: 5px;">
-                                                        <div style="display: flex; align-items: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid rgba(79, 142, 255, 0.3); position: sticky; top: 0; background: rgba(30, 41, 59, 0.95); padding-top: 10px; z-index: 10; backdrop-filter: blur(5px);">
-                                                            <div style="width: 48px; height: 48px; background: rgba(79, 142, 255, 0.2); border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-right: 15px;">
-                                                                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#4f8eff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                                                                    <circle cx="12" cy="7" r="4"></circle>
+                                                        <div style="display: flex; align-items: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid rgba(79, 142, 255, 0.3); position: sticky; top: 0; background: rgba(16, 24, 39, 0.85); padding-top: 10px; z-index: 10; backdrop-filter: blur(5px);">
+                                                            <div style="width: 48px; height: 48px; background: rgba(16, 24, 39, 0.85); border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-right: 15px;">
+                                                                <svg width="28" height="28" viewBox="0 0 1000 1000" fill="#4f8eff">
+                                                                    <path d="M940.606685 920.725892c-43.774993 0-72.529897-13.641695-102.973256-28.086685-25.675776-12.181437-52.150754-24.704658-86.192058-27.309996l89.181135-198.959378c12.491499-27.865651 2.100848-60.620659-24.169469-76.185146l-32.633235-19.339464L783.819802 277.715069c0-11.04966-8.958022-20.007683-20.007683-20.007683L647.769196 257.707386 647.769196 147.665131c0-11.04966-8.958022-20.007683-20.007683-20.007683l-94.0357 0L533.725814 83.640955c0-11.04966-8.958022-20.007683-20.007683-20.007683s-20.007683 8.958022-20.007683 20.007683l0 44.016493-94.0357 0c-11.04966 0-20.007683 8.958022-20.007683 20.007683l0 110.042255L263.622096 257.707386c-11.04966 0-20.007683 8.958022-20.007683 20.007683l0 292.109917-30.990828 18.183128c-27.442002 16.09763-37.554314 50.880831-23.023366 79.184457l101.656261 197.990307c-30.30419 2.330068-54.564733 13.168927-80.0645 24.586978-33.800827 15.136745-68.753897 30.78719-126.411061 30.78719-11.04966 0-20.007683 8.958022-20.007683 20.007683s8.958022 20.007683 20.007683 20.007683c66.206888 0 106.879216-18.21178 142.764518-34.280758 25.847691-11.574616 48.171116-21.570271 75.728752-21.570271 31.195489 0 61.411675 12.44238 93.403297 25.613354 35.950793 14.804171 73.127508 30.110785 116.185162 30.110785 42.176588 0 82.113159-14.863523 120.733759-29.235858 36.45733-13.568017 70.892607-26.38288 104.934934-26.38288 31.435966 0 54.845119 11.105942 81.953524 23.967878 31.562856 14.97404 67.339688 31.94762 120.123868 31.94762 11.048637 0 20.007683-8.958022 20.007683-20.007683S951.656345 920.725892 940.606685 920.725892zM419.681408 167.672814l188.0714 0 0 90.034573L419.681408 257.707386 419.681408 167.672814zM283.629779 297.722752l116.043946 0L627.761514 297.722752l116.043946 0 0 249.40735L524.360516 417.080164c-6.265704-3.714602-14.047947-3.731998-20.325931-0.045025L283.629779 546.347273 283.629779 297.722752zM619.638509 893.705492c-36.926004 13.744026-71.804373 26.723641-106.776885 26.723641-35.142381 0-67.107397-13.161764-100.949156-27.096125-23.830755-9.81146-48.230468-19.840884-74.073042-25.024953L225.196948 648.915299c-4.843308-9.434883-1.473561-21.027919 7.674796-26.39516l258.837116-151.85864 0 233.216599c0 11.048637 8.958022 20.007683 20.007683 20.007683s20.007683-8.959046 20.007683-20.007683L531.724227 467.959971 796.053428 624.608707c8.755408 5.187139 12.219299 16.10377 8.055466 25.394367l-97.518011 217.556944C676.770717 872.462678 647.849014 883.207393 619.638509 893.705492z"></path>
+                                                                    <path d="M403.675876 343.739808l-64.024176 0c-11.048637 0-20.007683 8.958022-20.007683 20.007683 0 11.04966 8.958022 20.007683 20.007683 20.007683l64.024176 0c11.048637 0 20.007683-8.958022 20.007683-20.007683C423.683559 352.698854 414.724513 343.739808 403.675876 343.739808z"></path>
+                                                                    <path d="M707.791222 363.747491c0-11.048637-8.958022-20.007683-20.007683-20.007683L497.711576 343.739808c-11.048637 0-20.007683 8.958022-20.007683 20.007683 0 11.04966 8.958022 20.007683 20.007683 20.007683l190.072987 0C698.833199 383.755174 707.791222 374.797152 707.791222 363.747491z"></path>
                                                                 </svg>
                                                             </div>
                                                             <div>
@@ -4778,15 +4829,16 @@
                     </div>
                     
                     <div id="video-content" class="content-section" style="display: none;">
-                        <div style="display: flex; height: 100%; gap: 20px;">
+                        <div style="display: flex; height: 90vh; gap: 20px;">
                             <!-- 视频监控-设备列表 -->
-                            <div style="width: 300px; background: rgba(16, 24, 39, 0.8); border-radius: 12px; padding: 20px; overflow-y: auto;">
+                            <div style="width: 300px;height: 90vh; background: rgba(16, 24, 39, 0.8); border-radius: 12px; padding: 20px; display: flex; flex-direction: column;">
                                 <h3 style="margin-bottom: 20px; color: #e6edf3; font-size: 18px;">设备列表</h3>
                                 <!-- 搜索框 -->
                                 <div style="margin-bottom: 20px;">
                                     <input type="text" placeholder="搜索摄像头..." style="width: 100%; padding: 8px 12px; border: 1px solid rgba(79, 142, 255, 0.3); border-radius: 6px; background: rgba(16, 24, 39, 0.9); color: #e6edf3; font-size: 14px; outline: none; transition: all 0.3s ease;">
                                 </div>
-                                <div class="device-tree">
+                                <!-- 设备框 -->
+                                <div class="device-tree" style="flex: 1; overflow-y: auto;">
                                     <div class="device-node">
                                         <div class="device-name" style="font-weight: bold; margin-bottom: 10px; cursor: pointer; padding: 8px; border-radius: 6px; background: rgba(79, 142, 255, 0.1);">
                                             📂 太仓港
@@ -4818,7 +4870,7 @@
                                     </div>
                                 </div>
                                 <!-- 视频分割按钮 -->
-                                <div style="margin-top: 630px; display: flex; gap: 10px;">
+                                <div style="display: flex; gap: 10px; margin-bottom: 20px;">
                                     <button style="flex: 1; padding: 8px 12px; border: 1px solid rgba(79, 142, 255, 0.3); border-radius: 6px; background: rgba(16, 24, 39, 0.9); color: #e6edf3; font-size: 14px; cursor: pointer; transition: all 0.3s ease;">1x1</button>
                                     <button style="flex: 1; padding: 8px 12px; border: 1px solid rgba(79, 142, 255, 0.3); border-radius: 6px; background: rgba(16, 24, 39, 0.9); color: #e6edf3; font-size: 14px; cursor: pointer; transition: all 0.3s ease;">2x2</button>
                                     <button style="flex: 1; padding: 8px 12px; border: 1px solid rgba(79, 142, 255, 0.6); border-radius: 6px; background: rgba(79, 142, 255, 0.2); color: #e6edf3; font-size: 14px; cursor: pointer; transition: all 0.3s ease;">3x3</button>
@@ -4829,7 +4881,7 @@
                             <!-- 视频监控-视频窗口 -->
                             <div style="flex: 1; display: flex; flex-direction: column; gap: 0px; min-height: 0;">
 
-                                <div class="video-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(3, minmax(150px, 1fr)); gap: 10px; height: 100%; min-height: 0;">
+                                <div class="video-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(3, minmax(150px, 28vh)); gap: 10px; height: 100%; min-height: 0;">
                                     <!-- 3*3 视频窗口 -->
                                     <div class="video-window" style="background: rgba(30, 41, 59, 0.8); border-radius: 8px; overflow: hidden; display: flex; flex-direction: column;">
                                         <div style="padding: 8px; background: rgba(16, 24, 39, 0.9); font-size: 14px; color: #94a3b8;">摄像头1</div>
@@ -6307,8 +6359,8 @@
                     const map = new BMap.Map("vessel-baidu-map");
                     
                     // 设置地图中心点和缩放级别
-                    const point = new BMap.Point(121.232221, 31.647138); 
-                    map.centerAndZoom(point, 14);
+                    const point = new BMap.Point(121.275472, 31.665981); 
+                    map.centerAndZoom(point, 13);
                     
                     // 添加地图控件
                     map.addControl(new BMap.NavigationControl());
@@ -7412,8 +7464,8 @@
                 const map = new BMap.Map(mapId);
                 
                 // 设置地图中心点和缩放级别
-                const point = new BMap.Point(121.232221, 31.647138); 
-                map.centerAndZoom(point, 14);
+                const point = new BMap.Point(121.275472, 31.665981); 
+                map.centerAndZoom(point, 13);
                 
                 // 添加地图控件
                 map.addControl(new BMap.NavigationControl());
@@ -8033,10 +8085,18 @@
                     if (percentage < 50) readyLess50Count++;
                 });
                 
-                document.getElementById('ship-total').textContent = totalCount;
-                document.getElementById('ship-ready-50').textContent = ready50Count;
-                document.getElementById('ship-ready-100').textContent = ready100Count;
-                document.getElementById('ship-ready-less-50').textContent = readyLess50Count;
+                // 检查元素是否存在，避免在元素被注释时出错
+                const shipTotal = document.getElementById('ship-total');
+                if (shipTotal) shipTotal.textContent = totalCount;
+                
+                const shipReady50 = document.getElementById('ship-ready-50');
+                if (shipReady50) shipReady50.textContent = ready50Count;
+                
+                const shipReady100 = document.getElementById('ship-ready-100');
+                if (shipReady100) shipReady100.textContent = ready100Count;
+                
+                const shipReadyLess50 = document.getElementById('ship-ready-less-50');
+                if (shipReadyLess50) shipReadyLess50.textContent = readyLess50Count;
             }
 
             // 生成7天趋势图数据
@@ -8064,6 +8124,8 @@
             // 绘制7天趋势图
             function drawShipTrendChart() {
                 const canvas = document.getElementById('ship-trend-canvas');
+                if (!canvas) return; // 如果canvas不存在，直接返回
+                
                 const ctx = canvas.getContext('2d');
                 
                 // 设置DPI缩放
@@ -8274,7 +8336,6 @@
                         <td>${schedule.berthingTime}</td>
                         <td>${schedule.departureTime}</td>
                         <td>${schedule.berth}</td>
-                        <td>${schedule.agentName}</td>
                     `;
                     scheduleTableBodyPort.appendChild(row);
                 });
@@ -8384,22 +8445,25 @@
                 waitingTableBody.innerHTML = '';
                 
                 const shipNames = ['太平洋之星', '大西洋号', '印度洋', '北冰洋', '南海明珠', '东海先锋', '渤海勇士', '黄海之光', '长江明珠', '珠江号', '黄河号', '淮河号'];
-                const shipTypes = ['散货船', '集装箱船', '油轮', '杂货船', '散装船', '多用途船'];
-                const anchorages = ['A1', 'A2', 'A3', 'B1', 'B2', 'B3', 'C1', 'C2'];
+                const terminals = ['一期码头', '二期码头', '三期码头', '四期码头'];
                 
                 const waitingShips = [];
                 
                 for (let i = 0; i < 10; i++) {
                     const shipName = shipNames[i % shipNames.length];
-                    const shipType = shipTypes[Math.floor(Math.random() * shipTypes.length)];
-                    const tonnage = (5000 + Math.floor(Math.random() * 45000)).toLocaleString();
-                    const anchorage = anchorages[Math.floor(Math.random() * anchorages.length)];
+                    const terminal = terminals[Math.floor(Math.random() * terminals.length)];
+                    const berth = (1 + Math.floor(Math.random() * 18)) + '#';
+                    const berthTerminal = `${terminal}-${berth}`;
+                    
+                    const arrivalDay = 20 + Math.floor(Math.random() * 10);
+                    const arrivalHour = 8 + Math.floor(Math.random() * 14);
+                    const arrivalMinute = Math.floor(Math.random() * 60);
+                    const arrivalTime = `12-${arrivalDay.toString().padStart(2, '0')} ${arrivalHour.toString().padStart(2, '0')}:${arrivalMinute.toString().padStart(2, '0')}`;
                     
                     waitingShips.push({
                         shipName,
-                        shipType,
-                        tonnage,
-                        anchorage
+                        berthTerminal,
+                        arrivalTime
                     });
                 }
                 
@@ -8407,9 +8471,8 @@
                     const row = document.createElement('tr');
                     row.innerHTML = `
                         <td>${ship.shipName}</td>
-                        <td>${ship.shipType}</td>
-                        <td>${ship.tonnage}</td>
-                        <td>${ship.anchorage}</td>
+                        <td>${ship.berthTerminal}</td>
+                        <td>${ship.arrivalTime}</td>
                     `;
                     waitingTableBody.appendChild(row);
                 });
@@ -9446,8 +9509,7 @@
                     
                     data.push({
                         date: dateStr,
-                        inbound: Math.floor(Math.random() * 50) + 20,
-                        loaded: Math.floor(Math.random() * 40) + 15
+                        inbound: Math.floor(Math.random() * 50) + 20
                     });
                 }
                 
@@ -9457,10 +9519,7 @@
                 const chartHeight = canvas.height - padding.top - padding.bottom;
                 
                 // 计算最大值
-                const maxValue = Math.max(
-                    ...data.map(item => item.inbound),
-                    ...data.map(item => item.loaded)
-                ) * 1.1;
+                const maxValue = Math.max(...data.map(item => item.inbound)) * 1.1;
                 const yScale = chartHeight / maxValue;
                 
                 // 绘制网格线
@@ -9520,24 +9579,7 @@
                 });
                 ctx.stroke();
                 
-                // 绘制折线 - 装船数量
-                ctx.strokeStyle = '#4fffb0'; // 青绿色
-                ctx.lineWidth = 2;
-                ctx.lineCap = 'round';
-                ctx.lineJoin = 'round';
-                
-                ctx.beginPath();
-                data.forEach((item, index) => {
-                    const x = padding.left + (chartWidth / (data.length - 1)) * index;
-                    const y = padding.top + chartHeight - (item.loaded * yScale);
-                    
-                    if (index === 0) {
-                        ctx.moveTo(x, y);
-                    } else {
-                        ctx.lineTo(x, y);
-                    }
-                });
-                ctx.stroke();
+
                 
                 // 绘制数据点 - 进站数量
                 ctx.fillStyle = '#4f8eff';
@@ -9550,16 +9592,7 @@
                     ctx.fill();
                 });
                 
-                // 绘制数据点 - 装船数量
-                ctx.fillStyle = '#4fffb0';
-                data.forEach((item, index) => {
-                    const x = padding.left + (chartWidth / (data.length - 1)) * index;
-                    const y = padding.top + chartHeight - (item.loaded * yScale);
-                    
-                    ctx.beginPath();
-                    ctx.arc(x, y, 4, 0, Math.PI * 2);
-                    ctx.fill();
-                });
+
                 
                 // 绘制X轴标签
                 ctx.fillStyle = 'rgba(230, 237, 243, 0.8)';
@@ -9592,30 +9625,26 @@
                 ctx.fillStyle = 'rgba(230, 237, 243, 0.8)';
                 ctx.fillText('进站数量', padding.left + 15, padding.top - 18);
                 
-                // 装船图例
-                ctx.fillStyle = '#4fffb0';
-                ctx.fillRect(padding.left + 80, padding.top - 15, 10, 5);
-                ctx.fillStyle = 'rgba(230, 237, 243, 0.8)';
-                ctx.fillText('装船数量', padding.left + 95, padding.top - 18);
+
                 
                 // 计算并更新统计数据
                 // 计算7天总和
                 const totalInbound7Days = data.reduce((sum, item) => sum + item.inbound, 0);
-                const totalLoaded7Days = data.reduce((sum, item) => sum + item.loaded, 0);
+
                 
                 // 模拟历史数据（7天数据的10倍）
                 const totalInbound = totalInbound7Days * 10;
-                const totalLoaded = totalLoaded7Days * 10;
+
                 
                 // 计算日均数据
                 const avgInbound = Math.round(totalInbound / 30); // 假设30天
-                const avgLoaded = Math.round(totalLoaded / 30);
+
                 
                 // 更新DOM元素
                 document.getElementById('total-inbound').textContent = totalInbound;
-                document.getElementById('total-loaded').textContent = totalLoaded;
+
                 document.getElementById('avg-inbound').textContent = avgInbound;
-                document.getElementById('avg-loaded').textContent = avgLoaded;
+
             }
 
             // 填充货物状态墙
