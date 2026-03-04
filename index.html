@@ -1878,14 +1878,18 @@
         }
 
         .cargo-detail-content {
-            background: white;
+            background: rgba(16, 24, 39, 0.95);
+            backdrop-filter: blur(12px);
+            margin: 5% auto;
+            border: 1px solid rgba(79, 142, 255, 0.3);  
             border-radius: 12px;
-            width: 900px;
+            width: 90%;
             max-width: 90%;
-            max-height: 100vh;
+            max-height: 90vh;
             display: flex;
             flex-direction: column;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            animation: modalFadeIn 0.3s ease;
         }
 
         .cargo-detail-body {
@@ -1898,29 +1902,46 @@
             flex: 1;
             padding: 20px;
             overflow-y: auto;
+            max-width: 50vh;
+        }
+
+        .cargo-detail-info::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .cargo-detail-info::-webkit-scrollbar-track {
+            background: rgba(30, 41, 59, 0.5);
+            border-radius: 4px;
+        }
+
+        .cargo-detail-info::-webkit-scrollbar-thumb {
+            background: rgba(79, 142, 255, 0.5);
+            border-radius: 4px;
+        }
+
+        .cargo-detail-info::-webkit-scrollbar-thumb:hover {
+            background: rgba(79, 142, 255, 0.7);
         }
 
         .cargo-detail-model {
             flex: 1;
             padding: 20px;
-            background: #f8f9fa;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            border-left: 1px solid #e0e0e0;
         }
 
         .cargo-model-title {
             font-size: 16px;
             font-weight: bold;
             margin-bottom: 15px;
-            color: #333;
+            padding: 16px 0 12px 0;
+            color: #fff;
         }
 
         .cargo-model-image {
             width: 100%;
-            max-height: 300px;
             object-fit: contain;
             border-radius: 8px;
             box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
@@ -1933,9 +1954,10 @@
         }
 
         .cargo-detail-header {
-            background: linear-gradient(135deg, #0a2463, #1e50a2);
+            background: linear-gradient(135deg, rgba(79, 142, 255, 0.2), rgba(30, 41, 59, 0.8));
+            border-bottom: 2px solid rgba(79, 142, 255, 0.2);
             color: white;
-            padding: 20px;
+            padding: 20px 30px;
             border-radius: 12px 12px 0 0;
             display: flex;
             justify-content: space-between;
@@ -1995,7 +2017,7 @@
         .cargo-detail-section {
             margin-bottom: 20px;
             padding-bottom: 15px;
-            border-bottom: 1px solid #e0e0e0;
+            border-bottom: 1px solid rgba(79, 142, 255, 0.2);
         }
 
         .cargo-detail-section:last-child {
@@ -2006,10 +2028,10 @@
         .cargo-detail-section-title {
             font-size: 16px;
             font-weight: bold;
-            color: #0a2463;
+            color: #fff;
             margin-bottom: 12px;
             padding-bottom: 8px;
-            border-bottom: 2px solid #0a2463;
+            border-bottom: 2px solid rgba(79, 142, 255, 0.2);
         }
 
         /* 船舶详情弹窗样式 */
@@ -2027,21 +2049,26 @@
         }
 
         .ship-detail-content {
-            background: white;
+            background-color: rgba(16, 24, 39, 0.95);
+            backdrop-filter: blur(12px);
+            margin: 5% auto;
+            padding: 0;
+            border: 1px solid rgba(79, 142, 255, 0.3);
             border-radius: 12px;
-            width: 95%;
-            max-width: 1400px;
-            max-height: 100vh;
+            width: 90%;
+            max-height: 90vh;
             display: flex;
             flex-direction: column;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            animation: modalSlideIn 0.3s ease;
         }
 
         .ship-detail-header {
-            background: linear-gradient(135deg, #0a2463, #1e50a2);
-            color: white;
-            padding: 20px;
+            padding: 20px 30px;
+            background: linear-gradient(135deg, rgba(79, 142, 255, 0.2), rgba(30, 41, 59, 0.8));
+            border-bottom: 2px solid rgba(79, 142, 255, 0.2);
             border-radius: 12px 12px 0 0;
+            color: white;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -2050,7 +2077,10 @@
 
         .ship-detail-header h3 {
             margin: 0;
+            color: #e6edf3;
             font-size: 20px;
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(79, 142, 255, 0.5);
         }
 
         .ship-detail-close {
@@ -2085,23 +2115,32 @@
         }
 
         .ship-detail-body::-webkit-scrollbar-track {
-            background: #f1f1f1;
+            background: rgba(30, 41, 59, 0.5);
             border-radius: 4px;
         }
 
         .ship-detail-body::-webkit-scrollbar-thumb {
-            background: #888;
+            background: rgba(79, 142, 255, 0.5);
             border-radius: 4px;
         }
 
         .ship-detail-body::-webkit-scrollbar-thumb:hover {
-            background: #555;
+            background: rgba(79, 142, 255, 0.7);
+        }
+
+        .ship-detail-report-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #fff;
+            margin: 0;
+            padding: 16px 0 12px 0;
+            border-bottom: 2px solid rgba(79, 142, 255, 0.2);
         }
 
         .ship-detail-row {
             display: flex;
             padding: 12px 0;
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid rgba(79, 142, 255, 0.2);
         }
 
         .ship-detail-row:last-child {
@@ -2111,13 +2150,13 @@
         .ship-detail-label {
             flex: 0 0 200px;
             font-weight: 500;
-            color: #666;
+            color: #94a3b8;
             font-size: 14px;
         }
 
         .ship-detail-value {
             flex: 1;
-            color: #0a2463;
+            color: #e6edf3;
             font-size: 14px;
             font-weight: 500;
         }
@@ -2129,11 +2168,11 @@
         .ship-detail-cargo-item {
             padding: 8px 12px;
             margin: 4px 0;
-            background: #f8f9fa;
+            background: rgba(30, 41, 59, 0.5);
             border-radius: 6px;
             border-left: 3px solid #0a2463;
             font-size: 13px;
-            color: #333;
+            color: #e6edf3;
         }
 
         .ship-detail-cargo-empty {
@@ -2159,7 +2198,6 @@
 
         .ship-detail-cargo-section {
             flex: 0 0 200px;
-            background: white;
             border-radius: 0;
             padding: 0;
             height: fit-content;
@@ -2168,7 +2206,6 @@
         .ship-detail-cargo-detail {
             flex: 1;
             min-width: 280px;
-            background: white;
             border-radius: 0;
             padding: 0;
             height: fit-content;
@@ -2176,7 +2213,6 @@
 
         .ship-detail-3d-model {
             flex: 0 0 280px;
-            background: white;
             border-radius: 0;
             padding: 0;
             height: fit-content;
@@ -2215,19 +2251,19 @@
         .ship-detail-cargo-detail-row {
             display: flex;
             padding: 12px 0;
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid rgba(79, 142, 255, 0.2);
         }
 
         .ship-detail-cargo-detail-label {
             flex: 0 0 200px;
             font-weight: 500;
-            color: #666;
+            color: #94a3b8;
             font-size: 14px;
         }
 
         .ship-detail-cargo-detail-value {
             flex: 1;
-            color: #0a2463;
+            color: #e6edf3;
             font-size: 14px;
             font-weight: 500;
         }
@@ -2239,25 +2275,60 @@
         .ship-detail-cargo-detail-section-title {
             font-size: 16px;
             font-weight: 600;
-            color: #0a2463;
+            color: #fff;
             margin: 0;
             padding: 16px 0 12px 0;
-            border-bottom: 2px solid #0a2463;
+            border-bottom: 2px solid rgba(79, 142, 255, 0.2);
         }
 
         .ship-detail-cargo-section-title {
             font-size: 16px;
             font-weight: 600;
-            color: #0a2463;
+            color: #fff;
             margin: 0;
             padding: 16px 0 12px 0;
-            border-bottom: 2px solid #0a2463;
+            border-bottom: 2px solid rgba(79, 142, 255, 0.2);
+        }
+
+        .ship-detail-voyage-section {
+            flex: 1;
+            min-width: 400px;
+            border-radius: 0;
+            padding: 0;
+            height: fit-content;
+        }
+
+        .ship-detail-voyage-content {
+            padding: 16px;
+        }
+
+        .voyage-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        .voyage-table th, .voyage-table td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid rgba(79, 142, 255, 0.2);
+            color: #e6edf3;
+        }
+
+        .voyage-table th {
+            background-color: rgba(79, 142, 255, 0.1);
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .voyage-table tr:hover {
+            background-color: rgba(79, 142, 255, 0.05);
         }
 
         .cargo-detail-row {
             display: flex;
             padding: 12px 0;
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid rgba(79, 142, 255, 0.2);
         }
 
         .cargo-detail-row:last-child {
@@ -2267,13 +2338,13 @@
         .cargo-detail-label {
             flex: 0 0 200px;
             font-weight: 500;
-            color: #666;
+            color: #94a3b8;
             font-size: 14px;
         }
 
         .cargo-detail-value {
             flex: 1;
-            color: #0a2463;
+            color: #e6edf3;
             font-size: 14px;
             font-weight: 500;
         }
@@ -2507,7 +2578,6 @@
             }
             
             .berth-container {
-                border-right: none;
                 border-bottom: 1px solid rgba(0, 102, 204, 0.1);
             }
             
@@ -3010,7 +3080,7 @@
             background: rgba(79, 142, 255, 0.8);
         }
 
-        /* 新的表格容器样式 */
+        /* 码头信息-报港表格容器样式 */
         .table-container-new {
             overflow: auto;
             background: rgba(15, 23, 42, 0.8);
@@ -3020,7 +3090,6 @@
             flex: 0 0 65%;
         }
         
-        /* 新的表格容器滚动条样式 */
         .table-container-new::-webkit-scrollbar {
             width: 8px;
             height: 8px;
@@ -3040,7 +3109,6 @@
             background: rgba(79, 142, 255, 0.8);
         }
 
-        /* 新的船期表格样式 */
         .schedule-table-new {
             width: 100%;
             border-collapse: collapse;
@@ -3079,6 +3147,7 @@
             background-color: rgba(30, 41, 59, 0.5);
         }
 
+        /* 船期-表格容器样式 */
         .data-table {
             width: 100%;
             border-collapse: collapse;
@@ -4803,7 +4872,7 @@
                             <div class="tab-content" id="berth-management-content" style="display: none;">
                                 <div class="schedule-list" style="float: left; width: 100%;">
                                     <div class="schedule-table-container">
-                                        <table class="schedule-table">
+                                        <table class="schedule-table-new">
                                             <thead>
                                                 <tr>
                                                     <th>船名</th>
@@ -7499,7 +7568,12 @@
                         ETA: "2025-12-29 18:30", 
                         cargoReadyRatio: "15/20",
                         position: new BMap.Point(121.254321, 31.658901), 
-                        status: "航行中" 
+                        status: "航行中",
+                        portCalls: [
+                            { port: "宁波港", eta: "2025-12-28 10:00", ata: "2025-12-28 10:15", etd: "2025-12-28 16:00", atd: "2025-12-28 16:10" },
+                            { port: "上海港", eta: "2025-12-29 18:30", ata: "", etd: "2025-12-30 08:00", atd: "" },
+                            { port: "新加坡港", eta: "2026-01-05 06:00", ata: "", etd: "2026-01-05 12:00", atd: "" }
+                        ]
                     },
                     { 
                         imoNumber: "IMO9234568",
@@ -7523,7 +7597,12 @@
                         ETA: "2025-12-30 10:15", 
                         cargoReadyRatio: "20/20",
                         position: new BMap.Point(121.287654, 31.678901), 
-                        status: "靠港" 
+                        status: "靠港",
+                        portCalls: [
+                            { port: "天津港", eta: "2025-12-29 08:00", ata: "2025-12-29 07:55", etd: "2025-12-29 14:00", atd: "2025-12-29 14:10" },
+                            { port: "青岛港", eta: "2025-12-30 10:15", ata: "2025-12-30 10:10", etd: "2025-12-30 16:00", atd: "" },
+                            { port: "洛杉矶港", eta: "2026-01-10 12:00", ata: "", etd: "2026-01-10 18:00", atd: "" }
+                        ]
                     },
                     { 
                         imoNumber: "IMO9234569",
@@ -7547,7 +7626,13 @@
                         ETA: "2025-12-30 15:45", 
                         cargoReadyRatio: "2/25",
                         position: new BMap.Point(121.259760, 31.636151), 
-                        status: "锚泊" 
+                        status: "锚泊",
+                        portCalls: [
+                            { port: "秦皇岛港", eta: "2025-12-28 16:00", ata: "2025-12-28 16:10", etd: "2025-12-29 08:00", atd: "2025-12-29 08:15" },
+                            { port: "大连港", eta: "2025-12-30 15:45", ata: "", etd: "2025-12-31 09:00", atd: "" },
+                            { port: "釜山港", eta: "2026-01-02 10:00", ata: "", etd: "2026-01-02 16:00", atd: "" },
+                            { port: "鹿特丹", eta: "2026-01-15 06:00", ata: "", etd: "2026-01-15 12:00", atd: "" }
+                        ]
                     },
                     { 
                         imoNumber: "IMO9234570",
@@ -7571,7 +7656,12 @@
                         ETA: "2025-12-31 08:20", 
                         cargoReadyRatio: "10/15",
                         position: new BMap.Point(121.276543, 31.687654), 
-                        status: "航行中" 
+                        status: "航行中",
+                        portCalls: [
+                            { port: "厦门港", eta: "2025-12-30 06:00", ata: "2025-12-30 06:10", etd: "2025-12-30 12:00", atd: "2025-12-30 12:15" },
+                            { port: "广州港", eta: "2025-12-31 08:20", ata: "", etd: "2025-12-31 14:00", atd: "" },
+                            { port: "迪拜港", eta: "2026-01-08 10:00", ata: "", etd: "2026-01-08 16:00", atd: "" }
+                        ]
                     },
                     { 
                         imoNumber: "IMO9234571",
@@ -7596,6 +7686,7 @@
                         cargoReadyRatio: "22/22",
                         position: new BMap.Point(121.245678, 31.645678), 
                         status: "检修" 
+                        
                     },
                     { 
                         imoNumber: "IMO9234572",
@@ -7619,7 +7710,12 @@
                         ETA: "2025-12-28 14:20", 
                         cargoReadyRatio: "25/30",
                         position: new BMap.Point(121.298765, 31.672345), 
-                        status: "靠港" 
+                        status: "靠港",
+                        portCalls: [
+                            { port: "青岛港", eta: "2025-12-27 08:00", ata: "2025-12-27 08:10", etd: "2025-12-27 14:00", atd: "2025-12-27 14:15" },
+                            { port: "天津港", eta: "2025-12-28 14:20", ata: "", etd: "2025-12-28 20:00", atd: "" },
+                            { port: "汉堡港", eta: "2026-01-12 10:00", ata: "", etd: "2026-01-12 16:00", atd: "" }
+                        ]
                     },
                     { 
                         imoNumber: "IMO9234573",
@@ -7643,7 +7739,12 @@
                         ETA: "2025-12-29 09:15", 
                         cargoReadyRatio: "12/18",
                         position: new BMap.Point(121.234567, 31.656789), 
-                        status: "航行中" 
+                        status: "航行中",
+                        portCalls: [
+                            { port: "上海港", eta: "2025-12-28 06:00", ata: "2025-12-28 06:10", etd: "2025-12-28 12:00", atd: "2025-12-28 12:15" },
+                            { port: "宁波港", eta: "2025-12-29 09:15", ata: "", etd: "2025-12-29 15:00", atd: "" },
+                            { port: "安特卫普港", eta: "2026-01-10 10:00", ata: "", etd: "2026-01-10 16:00", atd: "" }
+                        ]
                     },
                     { 
                         imoNumber: "IMO9234574",
@@ -7667,7 +7768,12 @@
                         ETA: "2025-12-29 22:40", 
                         cargoReadyRatio: "18/22",
                         position: new BMap.Point(121.267890, 31.665432), 
-                        status: "锚泊" 
+                        status: "锚泊",
+                        portCalls: [
+                            { port: "广州港", eta: "2025-12-28 10:00", ata: "2025-12-28 10:10", etd: "2025-12-28 16:00", atd: "2025-12-28 16:15" },
+                            { port: "厦门港", eta: "2025-12-29 22:40", ata: "", etd: "2025-12-30 06:00", atd: "" },
+                            { port: "新加坡港", eta: "2026-01-04 10:00", ata: "", etd: "2026-01-04 16:00", atd: "" }
+                        ]
                     },
                     { 
                         imoNumber: "IMO9234575",
@@ -7691,7 +7797,12 @@
                         ETA: "2025-12-30 06:50", 
                         cargoReadyRatio: "8/12",
                         position: new BMap.Point(121.289012, 31.678901), 
-                        status: "航行中" 
+                        status: "航行中",
+                        portCalls: [
+                            { port: "青岛港", eta: "2025-12-29 08:00", ata: "2025-12-29 08:10", etd: "2025-12-29 14:00", atd: "2025-12-29 14:15" },
+                            { port: "连云港", eta: "2025-12-30 06:50", ata: "", etd: "2025-12-30 12:00", atd: "" },
+                            { port: "马尼拉港", eta: "2026-01-03 10:00", ata: "", etd: "2026-01-03 16:00", atd: "" }
+                        ]
                     },
                     { 
                         imoNumber: "IMO9234576",
@@ -7715,7 +7826,12 @@
                         ETA: "2025-12-30 18:25", 
                         cargoReadyRatio: "30/30",
                         position: new BMap.Point(121.256789, 31.643210), 
-                        status: "检修" 
+                        status: "检修",
+                        portCalls: [
+                            { port: "香港港", eta: "2025-12-30 12:00", ata: "2025-12-30 12:10", etd: "2025-12-30 18:00", atd: "2025-12-30 18:15" },
+                            { port: "深圳港", eta: "2025-12-31 14:50", ata: "", etd: "2026-01-01 08:00", atd: "" },
+                            { port: "悉尼港", eta: "2026-01-07 10:00", ata: "", etd: "2026-01-07 16:00", atd: "" }
+                        ]
                     },
                     { 
                         imoNumber: "IMO9234577",
@@ -7739,7 +7855,12 @@
                         ETA: "2025-12-31 11:35", 
                         cargoReadyRatio: "15/25",
                         position: new BMap.Point(121.275432, 31.669012), 
-                        status: "靠港" 
+                        status: "靠港",
+                        portCalls: [
+                            { port: "大连港", eta: "2025-12-30 08:00", ata: "2025-12-30 08:10", etd: "2025-12-30 14:00", atd: "2025-12-30 14:15" },
+                            { port: "天津港", eta: "2025-12-31 11:35", ata: "", etd: "2025-12-31 17:00", atd: "" },
+                            { port: "鹿特丹港", eta: "2026-01-15 10:00", ata: "", etd: "2026-01-15 16:00", atd: "" }
+                        ]
                     },
                     { 
                         imoNumber: "IMO9234578",
@@ -7763,7 +7884,12 @@
                         ETA: "2025-12-31 17:55", 
                         cargoReadyRatio: "19/22",
                         position: new BMap.Point(121.269012, 31.684321), 
-                        status: "航行中" 
+                        status: "航行中",
+                        portCalls: [
+                            { port: "深圳港", eta: "2025-12-30 10:00", ata: "2025-12-30 10:10", etd: "2025-12-30 16:00", atd: "2025-12-30 16:15" },
+                            { port: "广州港", eta: "2025-12-31 17:55", ata: "", etd: "2026-01-01 04:00", atd: "" },
+                            { port: "墨尔本港", eta: "2026-01-09 10:00", ata: "", etd: "2026-01-09 16:00", atd: "" }
+                        ]
                     },
                     { 
                         imoNumber: "IMO9234579",
@@ -7787,7 +7913,12 @@
                         ETA: "2026-01-01 08:10", 
                         cargoReadyRatio: "22/28",
                         position: new BMap.Point(121.287654, 31.659012), 
-                        status: "锚泊" 
+                        status: "锚泊",
+                        portCalls: [
+                            { port: "上海港", eta: "2025-12-31 06:00", ata: "2025-12-31 06:10", etd: "2025-12-31 12:00", atd: "2025-12-31 12:15" },
+                            { port: "青岛港", eta: "2026-01-01 08:10", ata: "", etd: "2026-01-01 14:00", atd: "" },
+                            { port: "奥克兰港", eta: "2026-01-10 10:00", ata: "", etd: "2026-01-10 16:00", atd: "" }
+                        ]
                     },
                     { 
                         imoNumber: "IMO9234580",
@@ -7811,7 +7942,12 @@
                         ETA: "2026-01-01 13:40", 
                         cargoReadyRatio: "14/16",
                         position: new BMap.Point(121.243210, 31.673456), 
-                        status: "航行中" 
+                        status: "航行中",
+                        portCalls: [
+                            { port: "天津港", eta: "2025-12-31 10:00", ata: "2025-12-31 10:10", etd: "2025-12-31 16:00", atd: "2025-12-31 16:15" },
+                            { port: "大连港", eta: "2026-01-01 13:40", ata: "", etd: "2026-01-01 19:00", atd: "" },
+                            { port: "迪拜港", eta: "2026-01-08 10:00", ata: "", etd: "2026-01-08 16:00", atd: "" }
+                        ]
                     },
                     { 
                         imoNumber: "IMO9234581",
@@ -7835,7 +7971,12 @@
                         ETA: "2026-01-01 19:20", 
                         cargoReadyRatio: "9/15",
                         position: new BMap.Point(121.275432, 31.667890), 
-                        status: "检修" 
+                        status: "检修",
+                        portCalls: [
+                            { port: "上海港", eta: "2025-12-31 12:00", ata: "2025-12-31 12:10", etd: "2025-12-31 18:00", atd: "2025-12-31 18:15" },
+                            { port: "宁波港", eta: "2026-01-01 19:20", ata: "", etd: "2026-01-02 02:00", atd: "" },
+                            { port: "悉尼港", eta: "2026-01-08 10:00", ata: "", etd: "2026-01-08 16:00", atd: "" }
+                        ]
                     }
                 ];
                 
@@ -8656,7 +8797,40 @@
                         </div>
                         <div class="ship-detail-body">
                             <div class="ship-detail-content-wrapper">
+                                <div class="ship-detail-voyage-section">
+                                    <div class="ship-detail-cargo-section-title">航次信息</div>
+                                    <div class="ship-detail-voyage-content">
+                                        <table class="voyage-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>挂港</th>
+                                                    <th>ETA</th>
+                                                    <th>ATA</th>
+                                                    <th>ETD</th>
+                                                    <th>ATD</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                ${(() => {
+                                                    if (ship.portCalls && ship.portCalls.length > 0) {
+                                                        return ship.portCalls.map(call => `
+                                                            <tr>
+                                                                <td>${call.port}</td>
+                                                                <td>${call.eta || '-'}</td>
+                                                                <td>${call.ata || '-'}</td>
+                                                                <td>${call.etd || '-'}</td>
+                                                                <td>${call.atd || '-'}</td>
+                                                            </tr>
+                                                        `).join('');
+                                                    }
+                                                    return '<tr><td colspan="5" style="text-align: center;">暂无航次信息</td></tr>';
+                                                })()}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
                                 <div class="ship-detail-main-info">
+                                    <div class="ship-detail-report-title">船舶报港信息</div>
                                     <div class="ship-detail-row">
                                 <div class="ship-detail-label">IMO/识别号</div>
                                 <div class="ship-detail-value">${ship.imoNumber}</div>
@@ -8664,10 +8838,6 @@
                             <div class="ship-detail-row">
                                 <div class="ship-detail-label">船名</div>
                                 <div class="ship-detail-value">${ship.name}</div>
-                            </div>
-                            <div class="ship-detail-row">
-                                <div class="ship-detail-label">国籍</div>
-                                <div class="ship-detail-value">${ship.nationality}</div>
                             </div>
                             <div class="ship-detail-row">
                                 <div class="ship-detail-label">进港航次</div>
@@ -8678,20 +8848,8 @@
                                 <div class="ship-detail-value">${ship.outboundVoyage}</div>
                             </div>
                             <div class="ship-detail-row">
-                                <div class="ship-detail-label">货物类型</div>
-                                <div class="ship-detail-value">${ship.cargoType}</div>
-                            </div>
-                            <div class="ship-detail-row">
-                                <div class="ship-detail-label">重量（吨）</div>
-                                <div class="ship-detail-value">${ship.weight}</div>
-                            </div>
-                            <div class="ship-detail-row">
-                                <div class="ship-detail-label">责任码头</div>
+                                <div class="ship-detail-label">预靠码头-泊位</div>
                                 <div class="ship-detail-value">${ship.responsibleBerth}</div>
-                            </div>
-                            <div class="ship-detail-row">
-                                <div class="ship-detail-label">船舶种类</div>
-                                <div class="ship-detail-value">${ship.vesselType}</div>
                             </div>
                             <div class="ship-detail-row">
                                 <div class="ship-detail-label">装货港</div>
@@ -8911,7 +9069,7 @@
                         // 移除其他货物项的选中状态
                         cargoItems.forEach(i => i.style.backgroundColor = '');
                         // 添加当前货物项的选中状态
-                        item.style.backgroundColor = '#e9ecef';
+                        item.style.backgroundColor = 'rgba(79, 142, 255, 0.5)';
                         
                         const billOfLadingNo = item.dataset.billno;
                         const cargoDetail = generateCargoDetail(billOfLadingNo);
